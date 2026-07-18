@@ -3,15 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Medico;
 
 class MedicoController extends Controller
 {
-    public readonly User $user;
-    public function __construct(){
-        $this->user = new User();
-    }
-
     /**
      * Display a listing of the resource.
      */

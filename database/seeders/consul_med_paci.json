@@ -1,0 +1,53 @@
+{
+  "pacientes": [
+    { "id": 1, "nome": "João da Silva", "cpf": "11122233344", "data_nascimento": "1980-03-15", "telefone": "48999999999" },
+    { "id": 2, "nome": "Maria Oliveira", "cpf": "22233344455", "data_nascimento": "1985-07-20", "telefone": "48988888888" },
+    { "id": 3, "nome": "Pedro Henrique", "cpf": "33344455566", "data_nascimento": "1992-01-10", "telefone": "48977777777" },
+    { "id": 4, "nome": "Juliana Costa", "cpf": "44455566677", "data_nascimento": "1995-09-05", "telefone": "48966666666" },
+    { "id": 5, "nome": "Lucas Almeida", "cpf": "55566677788", "data_nascimento": "1988-11-30", "telefone": "48955555555" },
+    { "id": 6, "nome": "Camila Ferreira", "cpf": "66677788899", "data_nascimento": "1993-04-12", "telefone": "48944444444" },
+    { "id": 7, "nome": "Gabriel Santos", "cpf": "77788899900", "data_nascimento": "1987-06-18", "telefone": "48933333333" },
+    { "id": 8, "nome": "Larissa Gomes", "cpf": "88899900011", "data_nascimento": "1991-02-25", "telefone": "48922222222" },
+    { "id": 9, "nome": "Bruno Carvalho", "cpf": "99900011122", "data_nascimento": "1984-12-08", "telefone": "48911111111" },
+    { "id": 10, "nome": "Patrícia Lima", "cpf": "00011122233", "data_nascimento": "1996-03-14", "telefone": "48900000000" },
+    { "id": 11, "nome": "Fernando Rocha", "cpf": "11122233345", "data_nascimento": "1982-08-21", "telefone": "48999999998" },
+    { "id": 12, "nome": "Amanda Pereira", "cpf": "22233344456", "data_nascimento": "1994-05-19", "telefone": "48988888887" },
+    { "id": 13, "nome": "Rafael Mendes", "cpf": "33344455567", "data_nascimento": "1989-10-02", "telefone": "48977777776" },
+    { "id": 14, "nome": "Beatriz Alves", "cpf": "44455566678", "data_nascimento": "1997-12-11", "telefone": "48966666665" },
+    { "id": 15, "nome": "Thiago Barbosa", "cpf": "55566677789", "data_nascimento": "1986-07-07", "telefone": "48955555554" },
+    { "id": 16, "nome": "Vanessa Ribeiro", "cpf": "66677788890", "data_nascimento": "1990-09-23", "telefone": "48944444443" },
+    { "id": 17, "nome": "Eduardo Moreira", "cpf": "77788899901", "data_nascimento": "1983-01-17", "telefone": "48933333332" },
+    { "id": 18, "nome": "Natália Dias", "cpf": "88899900012", "data_nascimento": "1992-11-29", "telefone": "48922222221" },
+    { "id": 19, "nome": "Leonardo Teixeira", "cpf": "99900011123", "data_nascimento": "1981-04-04", "telefone": "48911111110" },
+    { "id": 20, "nome": "Isabela Cardoso", "cpf": "00011122234", "data_nascimento": "1998-08-15", "telefone": "48900000009" }
+  ],
+  "medicos": [
+    { "id": 1, "nome": "Dra. Ana Martins", "especialidade": "Clínico Geral", "crm": "CRM001" },
+    { "id": 2, "nome": "Dr. Carlos Souza", "especialidade": "Ortopedia", "crm": "CRM002" },
+    { "id": 3, "nome": "Dr. Felipe Ramos", "especialidade": "Cardiologia", "crm": "CRM003" },
+    { "id": 4, "nome": "Dra. Fernanda Lopes", "especialidade": "Dermatologia", "crm": "CRM004" },
+    { "id": 5, "nome": "Dr. Ricardo Nunes", "especialidade": "Neurologia", "crm": "CRM005" }
+  ],
+  "consultas": [
+    { "id": 1, "paciente_id": 1, "medico_id": 1, "data_atendimento": "2026-06-01", "valor_consulta": 180.0 },
+    { "id": 2, "paciente_id": 2, "medico_id": 2, "data_atendimento": "2026-06-02", "valor_consulta": 250.0 },
+    { "id": 3, "paciente_id": 3, "medico_id": 1, "data_atendimento": "2026-06-03", "valor_consulta": 180.0 },
+    { "id": 4, "paciente_id": 4, "medico_id": 3, "data_atendimento": "2026-06-04", "valor_consulta": 220.0 },
+    { "id": 5, "paciente_id": 5, "medico_id": 4, "data_atendimento": "2026-06-05", "valor_consulta": 200.0 },
+    { "id": 6, "paciente_id": 6, "medico_id": 2, "data_atendimento": "2026-06-06", "valor_consulta": 250.0 },
+    { "id": 7, "paciente_id": 7, "medico_id": 3, "data_atendimento": "2026-06-07", "valor_consulta": 220.0 },
+    { "id": 8, "paciente_id": 8, "medico_id": 4, "data_atendimento": "2026-06-08", "valor_consulta": 200.0 },
+    { "id": 9, "paciente_id": 9, "medico_id": 5, "data_atendimento": "2026-06-09", "valor_consulta": 270.0 },
+    { "id": 10, "paciente_id": 10, "medico_id": 1, "data_atendimento": "2026-06-10", "valor_consulta": 180.0 },
+    { "id": 11, "paciente_id": 11, "medico_id": 5, "data_atendimento": "2026-06-11", "valor_consulta": 270.0 },
+    { "id": 12, "paciente_id": 12, "medico_id": 4, "data_atendimento": "2026-06-12", "valor_consulta": 200.0 },
+    { "id": 13, "paciente_id": 13, "medico_id": 2, "data_atendimento": "2026-06-13", "valor_consulta": 250.0 },
+    { "id": 14, "paciente_id": 14, "medico_id": 1, "data_atendimento": "2026-06-14", "valor_consulta": 180.0 },
+    { "id": 15, "paciente_id": 15, "medico_id": 3, "data_atendimento": "2026-06-15", "valor_consulta": 220.0 },
+    { "id": 16, "paciente_id": 16, "medico_id": 4, "data_atendimento": "2026-06-16", "valor_consulta": 200.0 },
+    { "id": 17, "paciente_id": 17, "medico_id": 5, "data_atendimento": "2026-06-17", "valor_consulta": 270.0 },
+    { "id": 18, "paciente_id": 18, "medico_id": 2, "data_atendimento": "2026-06-18", "valor_consulta": 250.0 },
+    { "id": 19, "paciente_id": 19, "medico_id": 3, "data_atendimento": "2026-06-19", "valor_consulta": 220.0 },
+    { "id": 20, "paciente_id": 20, "medico_id": 1, "data_atendimento": "2026-06-20", "valor_consulta": 180.0 }
+  ]
+}

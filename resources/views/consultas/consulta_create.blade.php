@@ -54,18 +54,35 @@
                         url: "{{ route('pacientes.buscar') }}",
                         data: { term: request.term },
                         success: function(data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    label: item.nome,
-                                    value: item.nome,
-                                    id: item.id
-                                };
-                            }));
+                            if (data.length === 0) {
+                                // Nenhum paciente encontrado
+                                response([{ 
+                                    label: "Paciente não encontrado. Deseja cadastrar?", 
+                                    value: request.term, 
+                                    id: null 
+                                }]);
+                            } else {
+                                response($.map(data, function(item) {
+                                    return {
+                                        label: item.nome,
+                                        value: item.nome,
+                                        id: item.id
+                                    };
+                                }));
+                            }
                         }
                     });
                 },
                 select: function(event, ui) {
-                    $("#paciente_id").val(ui.item.id);
+                    if (ui.item.id) {
+                        // Paciente existente
+                        $("#paciente_id").val(ui.item.id);
+                    } else {
+                        // Nenhum paciente encontrado → redireciona para tela de cadastro
+                        if (confirm("Paciente não encontrado. Deseja cadastrar?")) {
+                            window.location.href = "{{ route('pacientes.create') }}";
+                        }
+                    }
                 }
             });
 
@@ -76,18 +93,35 @@
                         url: "{{ route('medicos.buscar') }}",
                         data: { term: request.term },
                         success: function(data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    label: item.nome,
-                                    value: item.nome,
-                                    id: item.id
-                                };
-                            }));
+                            if (data.length === 0) {
+                                // Nenhum medico encontrado
+                                response([{ 
+                                    label: "Medico não encontrado. Deseja cadastrar?", 
+                                    value: request.term, 
+                                    id: null 
+                                }]);
+                            } else {
+                                response($.map(data, function(item) {
+                                    return {
+                                        label: item.nome,
+                                        value: item.nome,
+                                        id: item.id
+                                    };
+                                }));
+                            }
                         }
                     });
                 },
                 select: function(event, ui) {
-                    $("#medico_id").val(ui.item.id);
+                    if (ui.item.id) {
+                        // Paciente existente
+                        $("#medico_id").val(ui.item.id);
+                    } else {
+                        // Nenhum paciente encontrado → redireciona para tela de cadastro
+                        if (confirm("Medico não encontrado. Deseja cadastrar?")) {
+                            window.location.href = "{{ route('medicos.create') }}";
+                        }
+                    }
                 }
             });
         });

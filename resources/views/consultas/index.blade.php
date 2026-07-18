@@ -20,18 +20,15 @@
     <table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
         <thead style="background:#ecf0f1;">
             <tr>
-                <th>ID</th>
                 <th>Paciente</th>
                 <th>Médico</th>
                 <th>Data</th>
                 <th>Valor</th>
-                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             @forelse($consultas as $consulta)
                 <tr>
-                    <td>{{ $consulta->id }}</td>
                     <td>{{ $consulta->paciente->nome }}</td>
                     <td>{{ $consulta->medico->nome }}</td>
                     <td>{{ $consulta->data_atendimento }}</td>

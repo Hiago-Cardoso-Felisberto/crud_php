@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Consulta;
 
 class ConsultaController extends Controller
 {
-    public readonly Consulta $consuta;
     public function __construct(){
-        $this->consuta = new Consulta();
+        $this->consulta = new Consulta();
     }
 
     public function index()
     {
-        $consutas = $this->consuta->all();
-        return view('consultas.index', ['consuta' => $consuta]);
+        $consultas  = $this->consulta->all();
+        return view('consultas.index', ['consultas' => $consultas]);
     }
 
     /**
@@ -23,7 +22,7 @@ class ConsultaController extends Controller
      */
     public function create()
     {
-        return view('consulta_create');
+        return view('consultas.consulta_create');
     }
 
     /**
@@ -31,7 +30,7 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
-        $created = $this->consuta->create([
+        $created = $this->consulta->create([
             'paciente_id' => $request->input('paciente_id'),
             'medico_id' => $request->input('medico_id'),
             'data_atendimento' => $request->input('data_atendimento'),
@@ -55,7 +54,7 @@ class ConsultaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    // public function edit(Consulta $consuta)
+    // public function edit(Consulta $consulta)
     // {
     //     return view('user_edit' , ['user'=> $user]);
     // }

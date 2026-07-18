@@ -12,21 +12,15 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public readonly Consulta $consuta;
-    public function __construct(){
-        $this->consuta = new Consulta();
-    }
-
     public function index()
     {
-        
         return view('home');
     }
 
     public function consultas()
     {
-        $consutas = $this->consuta->all();
-        return view('consultas.index', ['consuta' => $consutas]);
+        $consultas = Consulta::all();
+        return view('consultas.index', ['consultas' => $consultas]);
     }
 
     public function medicos()
