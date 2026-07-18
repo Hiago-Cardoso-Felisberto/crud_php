@@ -26,9 +26,15 @@ class AtendimentoSeeder extends Seeder
 
         // Insere médicos
         foreach ($data['medicos'] as $medico) {
+            $especialidade = \App\Models\Especialidade::where('nome', $medico['especialidade'])->first();
+
             Medico::updateOrCreate(
                 ['id' => $medico['id']],
-                $medico
+                [
+                    'nome' => $medico['nome'],
+                    'crm' => $medico['crm'],
+                    'especialidade_id' => $especialidade->id ?? null
+                ]
             );
         }
 

@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
     // Vai chamar a classe que inseri os dados iniciais no banco
     public function run()
     {
-        $this->call(AtendimentoSeeder::class);
+        $this->call([
+            EspecialidadesSeeder::class,
+            TiposConsultaSeeder::class,
+            TipoConsultaEspecialidadeSeeder::class,
+            AtendimentoSeeder::class,
+        ]);
     }
 }

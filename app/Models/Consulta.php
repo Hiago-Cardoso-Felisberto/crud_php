@@ -6,26 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Consulta extends Model
 {
-    protected $table = 'consultas';
     protected $fillable = [
         'paciente_id',
         'medico_id',
+        'tipo_consulta_id',
         'data_atendimento',
         'valor_consulta'
     ];
 
     protected $casts = [
         'data_atendimento' => 'datetime',
-        'valor_consulta' => 'decimal:2'
     ];
 
-    public function paciente()
+    public function tipoConsulta()
     {
-        return $this->belongsTo(Paciente::class);
+        return $this->belongsTo(TipoConsulta::class);
     }
 
     public function medico()
     {
         return $this->belongsTo(Medico::class);
+    }
+
+    public function paciente()
+    {
+        return $this->belongsTo(Paciente::class);
     }
 }

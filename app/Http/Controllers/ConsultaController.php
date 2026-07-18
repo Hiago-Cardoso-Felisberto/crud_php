@@ -3,82 +3,86 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Consulta;
+use App\Models\TipoConsulta;
+use App\Services\ConsultaService;
 
 class ConsultaController extends Controller
 {
-    public function __construct(){
-        $this->consulta = new Consulta();
+    protected $consultaService;
+
+    public function __construct(ConsultaService $consultaService){
+        $this->consultaService = $consultaService;
     }
 
     public function index()
     {
-        $consultas  = $this->consulta->all();
-        return view('consultas.index', ['consultas' => $consultas]);
+        $consultas = $this->consultaService->listarConsultas();
+        return view('consultas.index', compact('consultas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('consultas.consulta_create');
+        $tiposConsulta = TipoConsulta::all();
+        return view('consultas.consulta_create', compact('tiposConsulta'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $created = $this->consulta->create([
-            'paciente_id' => $request->input('paciente_id'),
-            'medico_id' => $request->input('medico_id'),
-            'data_atendimento' => $request->input('data_atendimento'),
-            'valor_consulta' => $request->input('valor_consulta')
+        $validated = $request->validate([
+            'paciente_id' => 'required|exists:pacientes,id',
+            'medico_id' => 'required|exists:medicos,id',
+            'tipo_consulta_id' => 'required|exists:tipos_consulta,id',
+            'data_atendimento' => 'required|date',
+            'hora_atendimento' => 'required|date_format:H:i',
+            'valor_consulta' => 'required|numeric|min:0'
         ]);
+
+        $validated['data_atendimento'] = $validated['data_atendimento'] . ' ' . $validated['hora_atendimento'] . ':00';
+        unset($validated['hora_atendimento']);
+
+        $created = $this->consultaService->criarConsulta($validated);
+
         if ($created) {
-            return redirect()->route('consultas.index');
+            return redirect()->route('consultas.index')
+                             ->with('success', 'Consulta cadastrada com sucesso!');
         } else {
-            return redirect()->back()->with('message','Error created');
+            return redirect()->back()
+                             ->with('error', 'Erro ao cadastrar consulta, tente novamente.');
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show(User $user)
-    // {
-    //     return view('user_show', ['user'=> $user]);
-    // }
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'data_atendimento' => 'required|date',
+            'hora_atendimento' => 'required|date_format:H:i',
+            'valor_consulta' => 'required|numeric|min:0'
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit(Consulta $consulta)
-    // {
-    //     return view('user_edit' , ['user'=> $user]);
-    // }
+        $validated['data_atendimento'] = $validated['data_atendimento'] . ' ' . $validated['hora_atendimento'] . ':00';
+        unset($validated['hora_atendimento']);
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(Request $request, string $id)
-    // {
-    //     $updated = $this->user->where('id', $id)->update($request->except(['_token', '_method']));
-    //     if ($updated) {
-    //         return redirect()->back()->with('message','Successfully updated');
-    //     } else {
-    //         return redirect()->back()->with('message','Error updated');
-    //     }
-    // }
+        $updated = $this->consultaService->atualizarConsulta($id, $validated);
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  */
-    // public function destroy(string $id)
-    // {
-    //     $this->user->where('id', $id)->delete();
+        if ($updated) {
+            return redirect()->route('consultas.index')
+                             ->with('success', 'Consulta atualizada com sucesso!');
+        } else {
+            return redirect()->back()
+                             ->with('error', 'Erro ao atualizar consulta.');
+        }
+    }
 
-    //     return redirect()->route('users.index');
-    // }
+    public function destroy($id)
+    {
+        $deleted = $this->consultaService->deletarConsulta($id);
+
+        if ($deleted) {
+            return redirect()->route('consultas.index')
+                             ->with('success', 'Consulta removida com sucesso!');
+        } else {
+            return redirect()->back()
+                             ->with('error', 'Erro ao remover consulta.');
+        }
+    }
 }

@@ -27,8 +27,23 @@
 
         <br><br>
 
+        <label for="tipo_consulta_id">Tipo de Consulta:</label>
+        <select name="tipo_consulta_id" required>
+            <option value="">Selecione o tipo de consulta</option>
+            @foreach($tiposConsulta as $tipo)
+                <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
+            @endforeach
+        </select>
+
+        <br><br>
+
         <label for="data_atendimento">Data:</label>
         <input type="date" name="data_atendimento" required>
+
+        <br><br>
+
+        <label for="hora_atendimento">Hora:</label>
+        <input type="time" name="hora_atendimento" required>
 
         <br><br>
 

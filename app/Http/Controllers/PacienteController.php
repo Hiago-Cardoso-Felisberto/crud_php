@@ -28,16 +28,24 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        $created = $this->user->create([
-            'firstName' => $request->input('firstName'),
-            'lastName' => $request->input('lastName'),
-            'email' => $request->input('email'),
-            'password' => password_hash($request->input('password'), PASSWORD_DEFAULT),
-        ]);
-        if ($created) {
-            return redirect()->back()->with('message','Successfully created');
-        } else {
-            return redirect()->back()->with('message','Error created');
+        try {
+            $validated = $request->validate([
+                'nome' => 'required|string|max:255',
+                'cpf' => 'required|string|max:14|unique:pacientes,cpf',
+                'data_nascimento' => 'required|date',
+                'telefone' => 'nullable|string|max:20',
+            ]);
+
+            Paciente::create($validated);
+
+            return redirect()
+                ->route('pacientes.index')
+                ->with('message', 'Paciente cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withErrors(['erro' => 'Erro ao salvar paciente: ' . $e->getMessage()])
+                ->withInput(); // mantém os dados preenchidos
         }
     }
 

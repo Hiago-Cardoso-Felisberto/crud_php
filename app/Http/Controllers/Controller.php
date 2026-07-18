@@ -7,6 +7,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Consulta; 
+use App\Models\Medico; 
+use App\Models\Paciente; 
 
 class Controller extends BaseController
 {
@@ -25,11 +27,13 @@ class Controller extends BaseController
 
     public function medicos()
     {
-        return view('medicos.index');
+        $medicos = Medico::all();
+        return view('medicos.index', ['medicos' => $medicos]);
     }
 
     public function pacientes()
     {
-        return view('pacientes.index');
+        $pacientes = Paciente::all();
+        return view('pacientes.index', ['pacientes' => $pacientes]);
     }
 }

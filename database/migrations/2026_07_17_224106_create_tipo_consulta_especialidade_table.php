@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('medicos', function (Blueprint $table) {
+        Schema::create('tipo_consulta_especialidade', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->foreignId('tipo_consulta_id')->constrained('tipos_consulta')->onDelete('cascade');
             $table->foreignId('especialidade_id')->constrained('especialidades')->onDelete('cascade');
-            $table->string('crm')->unique();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('medicos');
+        Schema::dropIfExists('tipo_consulta_especialidade');
     }
 };
