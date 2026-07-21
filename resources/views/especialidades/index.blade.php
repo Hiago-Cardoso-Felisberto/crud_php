@@ -1,41 +1,43 @@
 @extends('layouts.master')
 
-@section('title', 'Lista de Pacientes')
+@section('title', 'Lista de Especialidades')
 
 @section('content')
-    <h2>Lista de Pacientes</h2>
+    <h2>Lista de Especialidades</h2>
 
     {{-- Mensagem de sucesso --}}
     @if(session('success'))
         <p style="color: green;">{{ session('success') }}</p>
     @endif
 
-    {{-- Botão para criar novo paciente --}}
-    <a href="{{ route('pacientes.create') }}" 
+    {{-- Botão para criar nova especialidade --}}
+    <a href="{{ route('especialidades.create') }}" 
        style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
-       Novo Paciente
+       Nova Especialidade
     </a>
 
-    {{-- Tabela de pacientes --}}
+    {{-- Botão de voltar --}}
+    <a href="{{ route('consultas.index') }}" 
+    style="display:inline-block; margin-top:15px; padding:9px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
+    Voltar
+    </a>
+
+    {{-- Tabela de especialidades --}}
     <table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
         <thead style="background:#ecf0f1;">
             <tr>
                 <th>Nome</th>
-                <th>CPF</th>
-                <th>Data de Nascimento</th>
-                <th>Telefone</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($pacientes as $paciente)
+            @forelse($especialidades as $esp)
                 <tr>
-                    <td>{{ $paciente->nome }}</td>
-                    <td>{{ $paciente->cpf }}</td>
-                    <td>{{ \Carbon\Carbon::parse($paciente->data_nascimento)->format('d/m/Y') }}</td>
-                    <td>{{ $paciente->telefone }}</td>
+                    <td>{{ $esp->nome }}</td>
                     <td>
-                        <a href="{{ route('pacientes.edit', $paciente->id) }}" style="margin-right:10px; color:blue;">Editar</a>
-                        <form action="{{ route('pacientes.destroy', $paciente->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('especialidades.edit', $esp->id) }}" 
+                           style="margin-right:10px; color:blue;">Editar</a>
+                        <form action="{{ route('especialidades.destroy', $esp->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" style="color:red; background:none; border:none; cursor:pointer;">
@@ -46,7 +48,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" style="text-align:center;">Nenhum paciente cadastrado.</td>
+                    <td colspan="2" style="text-align:center;">Nenhuma especialidade cadastrada.</td>
                 </tr>
             @endforelse
         </tbody>

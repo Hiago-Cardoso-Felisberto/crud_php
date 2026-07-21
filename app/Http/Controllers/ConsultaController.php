@@ -22,25 +22,13 @@ class ConsultaController extends Controller
 
     public function create()
     {
-        $tiposConsulta = TipoConsulta::all();
-        return view('consultas.consulta_create', compact('tiposConsulta'));
+        $tiposConsulta = $this->consultaService->listarTiposConsulta();
+        return view('consultas.create', compact('tiposConsulta'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'paciente_id' => 'required|exists:pacientes,id',
-            'medico_id' => 'required|exists:medicos,id',
-            'tipo_consulta_id' => 'required|exists:tipos_consulta,id',
-            'data_atendimento' => 'required|date',
-            'hora_atendimento' => 'required|date_format:H:i',
-            'valor_consulta' => 'required|numeric|min:0'
-        ]);
-
-        $validated['data_atendimento'] = $validated['data_atendimento'] . ' ' . $validated['hora_atendimento'] . ':00';
-        unset($validated['hora_atendimento']);
-
-        $created = $this->consultaService->criarConsulta($validated);
+        $created = $this->consultaService->criarConsulta($request);
 
         if ($created) {
             return redirect()->route('consultas.index')
@@ -53,16 +41,7 @@ class ConsultaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'data_atendimento' => 'required|date',
-            'hora_atendimento' => 'required|date_format:H:i',
-            'valor_consulta' => 'required|numeric|min:0'
-        ]);
-
-        $validated['data_atendimento'] = $validated['data_atendimento'] . ' ' . $validated['hora_atendimento'] . ':00';
-        unset($validated['hora_atendimento']);
-
-        $updated = $this->consultaService->atualizarConsulta($id, $validated);
+        $updated = $this->consultaService->atualizarConsulta($id, $request);
 
         if ($updated) {
             return redirect()->route('consultas.index')

@@ -4,89 +4,53 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Medico;
+use App\Services\MedicoService;
 
 class MedicoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $service;
+
+    public function __construct(MedicoService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        $users = $this->user->all();
-        return view('users', ['users' => $users]);
+        $medicos = $this->service->listarMedicos();
+        return view('medicos.index', compact('medicos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('user_create');
+        return view('medicos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $created = $this->user->create([
-            'firstName' => $request->input('firstName'),
-            'lastName' => $request->input('lastName'),
-            'email' => $request->input('email'),
-            'password' => password_hash($request->input('password'), PASSWORD_DEFAULT),
-        ]);
-        if ($created) {
-            return redirect()->back()->with('message','Successfully created');
-        } else {
-            return redirect()->back()->with('message','Error created');
-        }
+        $this->service->cadastrarMedico($request->all());
+        return redirect()->route('medicos.index')->with('success', 'Medico cadastrado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
+    public function edit(Medicos $medicos)
     {
-        return view('user_show', ['user'=> $user]);
+        return view('medicos.edit', compact('medicos'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
+    public function update(Request $request, $id)
     {
-        return view('user_edit' , ['user'=> $user]);
+        $this->service->atualizarMedicos($id, $request->except(['_token', '_method']));
+        return redirect()->route('medicos.index')->with('success','Medico atualizado com sucesso!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        $updated = $this->user->where('id', $id)->update($request->except(['_token', '_method']));
-        if ($updated) {
-            return redirect()->back()->with('message','Successfully updated');
-        } else {
-            return redirect()->back()->with('message','Error updated');
-        }
+        $this->service->deletarMedicos($id);
+        return redirect()->route('medicos.index')->with('success','Medico excluído com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function search(Request $request)
     {
-        $this->user->where('id', $id)->delete();
-
-        return redirect()->route('users.index');
-    }
-
-
-    public function buscar(Request $request)
-    {
-        $term = $request->get('term');
-        $medicos = Medico::where('nome', 'LIKE', '%' . $term . '%')->get();
-
-        return response()->json($medicos);
+        return $this->service->buscar($request->get('query'));
     }
 }

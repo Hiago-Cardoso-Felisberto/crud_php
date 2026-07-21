@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\TipoConsultaController;
+use App\Http\Controllers\EspecialidadeController;
 
 // Rotas iniciais
 Route::get('/', [Controller::class, 'index'])->name('home');
@@ -29,23 +31,39 @@ Route::post('/consultas', [ConsultaController::class,'store'])->name('consultas.
 // Route::get('/pacientes', [UserController:: class,'index'])-> name('pacientes.index');   Provavel exclusão
 Route::get('/pacientes/create', [PacienteController:: class,'create'])-> name('pacientes.create');
 Route::post('/pacientes', [PacienteController::class,'store'])->name('pacientes.store');
-// Route::get('/pacientes/{user}', [UserController::class,'show'])->name('pacientes.show');
-// Route::get('/pacientes/{user}/edit', [UserController::class,'edit'])->name('pacientes.edit');
-// Route::put('/pacientes/{user}', [UserController::class,'update'])->name('pacientes.update');
-// Route::delete('/pacientes/{user}', [UserController::class,'destroy'])->name('pacientes.destroy');
+Route::get('/pacientes/{paciente}/edit', [PacienteController::class,'edit'])->name('pacientes.edit');
+Route::put('/pacientes/{paciente}', [PacienteController::class,'update'])->name('pacientes.update');
+Route::delete('/pacientes/{paciente}', [PacienteController::class,'destroy'])->name('pacientes.destroy');
 
 
 // Rotas de medicos
+Route::get('/medicos/especialidades/search', [EspecialidadeController::class, 'search'])->name('especialidades.search');
+
 // Route::get('/medicos', [UserController:: class,'index'])-> name('medicos.index');      Provavel exclusão
-Route::get('/medicos/create', [UserController:: class,'create'])-> name('medicos.create');
-Route::post('/medicos', [UserController::class,'store'])->name('medicos.store');
-// Route::get('/medicos/{user}', [UserController::class,'show'])->name('medicos.show');
-// Route::get('/medicos/{user}/edit', [UserController::class,'edit'])->name('medicos.edit');
-// Route::put('/medicos/{user}', [UserController::class,'update'])->name('medicos.update');
-// Route::delete('/umedicossers/{user}', [UserController::class,'destroy'])->name('medicos.destroy');
+Route::get('/medicos/create', [MedicoController:: class,'create'])-> name('medicos.create');
+Route::post('/medicos', [MedicoController::class,'store'])->name('medicos.store');
+Route::get('/medicos/{medico}/edit', [MedicoController::class,'edit'])->name('medicos.edit');
+Route::put('/medicos/{medico}', [MedicoController::class,'update'])->name('medicos.update');
+Route::delete('/umedicossers/{medico}', [MedicoController::class,'destroy'])->name('medicos.destroy');
 
 
+// Especialidades
+Route::get('/especialidades', [EspecialidadeController::class, 'index'])->name('especialidades.index');
+Route::get('/especialidades/create', [EspecialidadeController::class, 'create'])->name('especialidades.create');
+Route::post('/especialidades', [EspecialidadeController::class, 'store'])->name('especialidades.store');
+Route::get('/especialidades/{especialidade}', [EspecialidadeController::class,'show'])->name('especialidades.show');
+Route::get('/especialidades/{especialidade}/edit', [EspecialidadeController::class,'edit'])->name('especialidades.edit');
+Route::put('/especialidades/{especialidade}', [EspecialidadeController::class,'update'])->name('especialidades.update');
+Route::delete('/especialidades/{especialidade}', [EspecialidadeController::class,'destroy'])->name('especialidades.destroy');
 
+
+// Tipos de Consulta
+Route::get('/tipos-consulta', [TipoConsultaController::class, 'index'])->name('tipos_consulta.index');
+Route::get('/tipos-consulta/create', [TipoConsultaController::class, 'create'])->name('tipos_consulta.create');
+Route::post('/tipos-consulta', [TipoConsultaController::class, 'store'])->name('tipos_consulta.store');
+Route::get('/tipos-consulta/{tipoConsulta}/edit', [TipoConsultaController::class,'edit'])->name('tipos_consulta.edit');
+Route::put('/tipos-consulta/{tipoConsulta}', [TipoConsultaController::class,'update'])->name('tipos_consulta.update');
+Route::delete('/tipos-consulta/{tipoConsulta}', [TipoConsultaController::class,'destroy'])->name('tipos_consulta.destroy');
 
 // Exemplo
 // Route::get('/users', [UserController:: class,'index'])-> name('users.index');

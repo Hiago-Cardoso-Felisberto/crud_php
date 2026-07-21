@@ -3,44 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\PacienteService;
 use App\Models\Paciente;
 
 class PacienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $pacienteService;
+
+    public function __construct(PacienteService $pacienteService)
+    {
+        $this->pacienteService = $pacienteService;
+    }
+
     public function index()
     {
         return view('pacientes.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('pacientes.pacientes_create');
+        return view('pacientes.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
-            $validated = $request->validate([
-                'nome' => 'required|string|max:255',
-                'cpf' => 'required|string|max:14|unique:pacientes,cpf',
-                'data_nascimento' => 'required|date',
-                'telefone' => 'nullable|string|max:20',
-            ]);
 
-            Paciente::create($validated);
+            $this->pacienteService->cadastrarPaciente($request->all());
 
             return redirect()
                 ->route('pacientes.index')
-                ->with('message', 'Paciente cadastrado com sucesso!');
+                ->with('success', 'Paciente cadastrado com sucesso!');
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -49,43 +42,21 @@ class PacienteController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
+    public function edit(Paciente $paciente)
     {
-        return view('user_show', ['user'=> $user]);
+        return view('pacientes.edit' , compact('paciente'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
+    public function update(Request $request, $id)
     {
-        return view('user_edit' , ['user'=> $user]);
+        $this->pacienteService->atualizarPaciente($id, $request->except(['_token', '_method']));
+        return redirect()->route('pacientes.index')->with('success','Paciente atualizado com sucesso!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        $updated = $this->user->where('id', $id)->update($request->except(['_token', '_method']));
-        if ($updated) {
-            return redirect()->back()->with('message','Successfully updated');
-        } else {
-            return redirect()->back()->with('message','Error updated');
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $this->user->where('id', $id)->delete();
-
-        return redirect()->route('users.index');
+        $this->pacienteService->excluirPaciente($id);
+        return redirect()->route('pacientes.index')->with('success','Paciente excluído com sucesso!');
     }
 
     public function buscar(Request $request)

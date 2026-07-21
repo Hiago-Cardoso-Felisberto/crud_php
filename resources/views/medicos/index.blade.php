@@ -1,42 +1,40 @@
 @extends('layouts.master')
 
-@section('title', 'Medicos')
+@section('title', 'Lista de Médicos')
 
 @section('content')
-    <h2>Lista de Medicos</h2>
+    <h2>Lista de Médicos</h2>
 
     {{-- Mensagem de sucesso --}}
-    @if(session('message'))
-        <p style="color: green;">{{ session('message') }}</p>
+    @if(session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
     @endif
 
-    {{-- Botão para cadastrar novo medico --}}
-    <a href="{{ route('consultas.create') }}" 
+    {{-- Botão para criar novo médico --}}
+    <a href="{{ route('medicos.create') }}" 
        style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
-       Nova Consulta
+       Novo Médico
     </a>
 
-    {{-- Tabela de consultas --}}
+    {{-- Tabela de médicos --}}
     <table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
         <thead style="background:#ecf0f1;">
             <tr>
-                <th>Paciente</th>
-                <th>Médico</th>
-                <th>Data</th>
-                <th>Valor</th>
+                <th>Nome</th>
+                <th>CRM</th>
+                <th>Especialidade</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($consultas as $consulta)
+            @forelse($medicos as $medico)
                 <tr>
-                    <td>{{ $consulta->paciente->nome }}</td>
-                    <td>{{ $consulta->medico->nome }}</td>
-                    <td>{{ $consulta->data_atendimento }}</td>
-                    <td>R$ {{ number_format($consulta->valor_consulta, 2, ',', '.') }}</td>
+                    <td>{{ $medico->nome }}</td>
+                    <td>{{ $medico->crm }}</td>
+                    <td>{{ $medico->especialidade->nome }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="text-align:center;">Nenhuma consulta cadastrada.</td>
+                    <td colspan="3" style="text-align:center;">Nenhum médico cadastrado.</td>
                 </tr>
             @endforelse
         </tbody>

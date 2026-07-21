@@ -16,6 +16,18 @@
        Nova Consulta
     </a>
 
+    {{-- Botão para verifica tipos de consultas --}}
+    <a href="{{ route('tipos_consulta.index') }}" 
+       style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
+       Tipo de consultas
+    </a>
+
+    {{-- Botão para visualizar especialidades --}}
+    <a href="{{ route('especialidades.index') }}" 
+       style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
+       Especialidade por consultas
+    </a>
+
     {{-- Tabela de consultas --}}
     <table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
         <thead style="background:#ecf0f1;">

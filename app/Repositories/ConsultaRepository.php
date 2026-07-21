@@ -16,8 +16,13 @@ class ConsultaRepository
         return $this->model->all();
     }
 
-    public function create(array $data){
-        return $this->model->create($data);
+    public function TipoConultaAll()
+    {
+        return TipoConsulta::all();
+    }
+
+    public function create(array $dadosCunsulta){
+        return $this->model->create($dadosCunsulta);
     }
 
     public function update($id, array $data){

@@ -47,5 +47,7 @@
     <footer>
         <p>&copy; {{ date('Y') }} - Sistema de Consultas</p>
     </footer>
+
+    @yield('scripts')
 </body>
 </html>
