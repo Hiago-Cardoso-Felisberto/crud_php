@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Consulta;
+use App\Models\TipoConsulta;
 
 class ConsultaRepository
 {
@@ -16,12 +17,13 @@ class ConsultaRepository
         return $this->model->all();
     }
 
-    public function TipoConultaAll()
+    public function TipoConsultaAll()
     {
         return TipoConsulta::all();
     }
 
     public function create(array $dadosCunsulta){
+        unset($dadosCunsulta['id']);
         return $this->model->create($dadosCunsulta);
     }
 
@@ -31,5 +33,10 @@ class ConsultaRepository
 
     public function delete($id){
         return $this->model->where('id', $id)->delete();
+    }
+
+    public function medicosPorTipoConsulta($id){
+        $tipo = TipoConsulta::with('especialidades.medicos')->findOrFail($id);
+        return $tipo->especialidades->flatMap->medicos->unique('id')->values();
     }
 }

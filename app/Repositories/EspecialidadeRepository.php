@@ -14,6 +14,7 @@ class EspecialidadeRepository
 
     public function create(array $data)
     {
+        unset($data['id']);
         return Especialidade::create($data);
     }
 

@@ -18,17 +18,18 @@ Route::get('/pacientes', [Controller::class, 'pacientes'])->name('pacientes.inde
 Route::get('/buscar-pacientes', [PacienteController::class, 'buscar'])->name('pacientes.buscar');
 Route::get('/buscar-medicos', [MedicoController::class, 'buscar'])->name('medicos.buscar');
 
-// Route::get('/consultas', [UserController:: class,'index'])-> name('consultas.index');   Provavel exclusão
+// Route::get('/consultas', [ConsultaController:: class,'index'])-> name('consultas.index');   Provavel exclusão
 Route::get('/consultas/create', [ConsultaController::class, 'create'])->name('consultas.create');
 Route::post('/consultas', [ConsultaController::class,'store'])->name('consultas.store');
-// Route::get('/consultas/{user}', [UserController::class,'show'])->name('consultas.show');
-// Route::get('/consultas/{user}/edit', [UserController::class,'edit'])->name('consultas.edit');
-// Route::put('/consultas/{user}', [UserController::class,'update'])->name('consultas.update');
-// Route::delete('/consultas/{user}', [UserController::class,'destroy'])->name('consultas.destroy');
+Route::get('/consultas/{consulta}', [ConsultaController::class,'show'])->name('consultas.show');
+Route::get('/consultas/{consulta}/edit', [ConsultaController::class,'edit'])->name('consultas.edit');
+Route::put('/consultas/{consulta}', [ConsultaController::class,'update'])->name('consultas.update');
+Route::delete('/consultas/{consulta}', [ConsultaController::class,'destroy'])->name('consultas.destroy');
+Route::get('/consultas/medicos-por-tipo/{id}', [ConsultaController::class, 'medicosPorTipo'])->name('consultas.medicosPorTipo');
 
 
 // Rotas de pacientes
-// Route::get('/pacientes', [UserController:: class,'index'])-> name('pacientes.index');   Provavel exclusão
+// Route::get('/pacientes', [PacienteController:: class,'index'])-> name('pacientes.index');   Provavel exclusão
 Route::get('/pacientes/create', [PacienteController:: class,'create'])-> name('pacientes.create');
 Route::post('/pacientes', [PacienteController::class,'store'])->name('pacientes.store');
 Route::get('/pacientes/{paciente}/edit', [PacienteController::class,'edit'])->name('pacientes.edit');
@@ -39,12 +40,13 @@ Route::delete('/pacientes/{paciente}', [PacienteController::class,'destroy'])->n
 // Rotas de medicos
 Route::get('/medicos/especialidades/search', [EspecialidadeController::class, 'search'])->name('especialidades.search');
 
-// Route::get('/medicos', [UserController:: class,'index'])-> name('medicos.index');      Provavel exclusão
+// Route::get('/medicos', [MedicoController:: class,'index'])-> name('medicos.index');      Provavel exclusão
 Route::get('/medicos/create', [MedicoController:: class,'create'])-> name('medicos.create');
 Route::post('/medicos', [MedicoController::class,'store'])->name('medicos.store');
+Route::get('/medicos/search', [MedicoController::class,'search'])->name('medicos.search');
 Route::get('/medicos/{medico}/edit', [MedicoController::class,'edit'])->name('medicos.edit');
 Route::put('/medicos/{medico}', [MedicoController::class,'update'])->name('medicos.update');
-Route::delete('/umedicossers/{medico}', [MedicoController::class,'destroy'])->name('medicos.destroy');
+Route::delete('/medicos/{medico}', [MedicoController::class,'destroy'])->name('medicos.destroy');
 
 
 // Especialidades

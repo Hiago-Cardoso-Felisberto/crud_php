@@ -25,17 +25,19 @@ class AtendimentoSeeder extends Seeder
         }
 
         // Insere médicos
-        foreach ($data['medicos'] as $medico) {
-            $especialidade = \App\Models\Especialidade::where('nome', $medico['especialidade'])->first();
+        foreach ($data['medicos'] as $medicoData) {
+            $especialidade = \App\Models\Especialidade::where('nome', $medicoData['especialidade'])->first();
 
-            Medico::updateOrCreate(
-                ['id' => $medico['id']],
-                [
-                    'nome' => $medico['nome'],
-                    'crm' => $medico['crm'],
-                    'especialidade_id' => $especialidade->id ?? null
-                ]
+            // Cria ou atualiza médico sem especialidade_id
+            $medico = Medico::updateOrCreate(
+                ['id' => $medicoData['id']],
+                ['nome' => $medicoData['nome'], 'crm' => $medicoData['crm']]
             );
+
+            // Vincula especialidade na pivot
+            if ($especialidade) {
+                $medico->especialidades()->syncWithoutDetaching([$especialidade->id]);
+            }
         }
 
         // Insere consultas

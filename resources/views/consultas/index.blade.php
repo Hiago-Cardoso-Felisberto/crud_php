@@ -5,10 +5,14 @@
 @section('content')
     <h2>Lista de Consultas</h2>
 
-    {{-- Mensagem de sucesso --}}
-    @if(session('message'))
-        <p style="color: green;">{{ session('message') }}</p>
+    {{-- Mensagem de sucesso ou erro --}}
+    @if(session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
     @endif
+    @if(session('error'))
+        <p style="color: red;">{{ session('error') }}</p>
+    @endif
+
 
     {{-- Botão para criar nova consulta --}}
     <a href="{{ route('consultas.create') }}" 
@@ -36,6 +40,7 @@
                 <th>Médico</th>
                 <th>Data</th>
                 <th>Valor</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -43,12 +48,22 @@
                 <tr>
                     <td>{{ $consulta->paciente->nome }}</td>
                     <td>{{ $consulta->medico->nome }}</td>
-                    <td>{{ $consulta->data_atendimento }}</td>
+                    <td>{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('d/m/Y H:i') }}</td>
                     <td>R$ {{ number_format($consulta->valor_consulta, 2, ',', '.') }}</td>
+                    <td>
+                        <a href="{{ route('consultas.edit', $consulta->id) }}" style="margin-right:10px; color:blue;">Editar</a>
+                        <form action="{{ route('consultas.destroy', $consulta->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="color:red; background:none; border:none; cursor:pointer;">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="text-align:center;">Nenhuma consulta cadastrada.</td>
+                    <td colspan="5" style="text-align:center;">Nenhuma consulta cadastrada.</td>
                 </tr>
             @endforelse
         </tbody>

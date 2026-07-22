@@ -51,6 +51,7 @@ class EspecialidadeController extends Controller
 
     public function search(Request $request)
     {
-        return $this->service->search($request->get('query'));
+        $result = $this->service->search($request->get('query'));
+        return response()->json($result);
     }
 }

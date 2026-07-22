@@ -17,6 +17,7 @@ class PacienteRepository
     }
 
     public function create(array $pacienteDados){
+        unset($pacienteDados['id']);
         return Paciente::create($pacienteDados);
     }
 

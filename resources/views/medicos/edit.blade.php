@@ -10,8 +10,19 @@
         <p style="color: green;">{{ session('success') }}</p>
     @endif
 
+    {{-- Mensagem de erro --}}
+    @if ($errors->any())
+        <div style="color:red; background-color:#f8d7da; padding:10px; border-radius:5px; margin-bottom:15px;">
+            <ul>
+                @foreach ($errors->all() as $erro)
+                    <li>{{ $erro }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     {{-- Formulário --}}
-    <form action="{{ route('medicos.store', ['medico' => $medico->id])}}" method="POST">
+    <form action="{{ route('medicos.update', ['medico' => $medico->id])}}" method="POST">
         @csrf
         @method('PUT')
 
@@ -23,64 +34,82 @@
 
         <div style="margin-bottom:15px;">
             <label for="crm">CRM:</label><br>
-            <input type="text" name="crm" id="crm" value="{{ $medico->nome }}" required>
+            <input type="text" name="crm" id="crm" value="{{ $medico->crm }}" required>
             @error('crm') <span style="color:red;">{{ $message }}</span> @enderror
         </div>
 
-        <div style="margin-bottom:15px;">
-            <label for="especialidade">Especialidade:</label><br>
-            <input type="text" id="especialidade" placeholder="Digite para buscar..." autocomplete="off">
-            <input type="hidden" name="especialidade_id" id="especialidade_id">
-            @error('especialidade_id') <span style="color:red;">{{ $message }}</span> @enderror
+       <div style="margin-bottom:15px;">
+            <label for="especialidade">Especialidades:</label><br>
+            <input type="text" id="especialidade" placeholder="Digite para buscar...">
+            <div id="selecionadas" style="margin-top:10px;"></div>
+            <input type="hidden" name="especialidades" id="especialidades_hidden">
+            @error('especialidades') <span style="color:red;">{{ $message }}</span> @enderror
         </div>
 
         <button type="submit" 
                 style="padding:10px; background:#2c3e50; color:white; border:none; border-radius:5px;">
             Salvar
         </button>
+
+        {{-- Botão de voltar --}}
+        <a href="{{ route('medicos.index') }}" 
+        style="display:inline-block; margin-top:15px; padding:9px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
+        Cancelar e voltar
+        </a>
+
     </form>
 
-    {{-- Script de autocomplete --}}
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const input = document.getElementById('especialidade');
-            const hidden = document.getElementById('especialidade_id');
+        const especialidades = @json($especialidades);
+        let selecionadas = @json($medico->especialidades->pluck('id'));
 
-            input.addEventListener('input', function () {
-                fetch(`/especialidades/search?query=${input.value}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Remove sugestões antigas
-                        let list = document.getElementById('esp-list');
-                        if (list) list.remove();
-
-                        // Cria lista de sugestões
-                        list = document.createElement('ul');
-                        list.id = 'esp-list';
-                        list.style.border = '1px solid #ccc';
-                        list.style.position = 'absolute';
-                        list.style.background = '#fff';
-                        list.style.listStyle = 'none';
-                        list.style.padding = '0';
-                        list.style.margin = '0';
-                        list.style.width = input.offsetWidth + 'px';
-
-                        data.forEach(item => {
-                            const li = document.createElement('li');
-                            li.textContent = item.nome;
-                            li.style.padding = '5px';
-                            li.style.cursor = 'pointer';
-                            li.addEventListener('click', () => {
-                                input.value = item.nome;
-                                hidden.value = item.id;
-                                list.remove();
-                            });
-                            list.appendChild(li);
-                        });
-
-                        input.parentNode.appendChild(list);
-                    });
-            });
+        $("#especialidade").autocomplete({
+            source: especialidades.map(e => e.nome),
+            select: function(event, ui) {
+                const esp = especialidades.find(e => e.nome === ui.item.value);
+                if (esp && !selecionadas.includes(esp.id)) {
+                    selecionadas.push(esp.id);
+                    renderSelecionadas();
+                    $("#especialidades_hidden").val(selecionadas.join(','));
+                }
+                $(this).val('');
+                return false;
+            }
         });
+
+        function renderSelecionadas() {
+            $("#selecionadas").empty();
+            selecionadas.forEach(id => {
+                const esp = especialidades.find(e => e.id === id);
+                const chip = $("<span>")
+                    .text(esp.nome)
+                    .css({
+                        display: "inline-block",
+                        margin: "5px",
+                        padding: "5px",
+                        background: "#3498db",
+                        color: "white",
+                        borderRadius: "5px",
+                        cursor: "pointer"
+                    })
+                    .click(() => {
+                        selecionadas = selecionadas.filter(s => s !== id);
+                        renderSelecionadas();
+                        $("#especialidades_hidden").val(selecionadas.join(','));
+                    });
+                $("#selecionadas").append(chip);
+            });
+            $("#especialidades_hidden").val(selecionadas.join(','));
+        }
+
+        renderSelecionadas();
     </script>
 @endsection
+

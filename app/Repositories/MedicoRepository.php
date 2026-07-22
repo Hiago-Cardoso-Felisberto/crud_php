@@ -11,6 +11,7 @@ class MedicoRepository
     }
 
     public function create(array $dadosMedico){
+        unset($dadosMedico['id']);
         return Medico::create($dadosMedico);
     }
 
@@ -24,7 +25,6 @@ class MedicoRepository
 
     public function search($query)
     {
-        return Medico::where('nome', 'LIKE', '%' . $term . '%')->get();
+        return Medico::where('nome', 'LIKE', '%' . $query . '%')->get();
     }
-
 }

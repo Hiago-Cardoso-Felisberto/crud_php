@@ -13,6 +13,7 @@ class TipoConsultaRepository
 
     public function create(array $data)
     {
+        unset($data['id']);
         return TipoConsulta::create($data);
     }
 

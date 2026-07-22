@@ -1,16 +1,15 @@
 @extends('layouts.master')
 
-@section('title', 'Nova Consulta')
+@section('title', 'Editar Consulta')
 
 @section('content')
-
-    <h2>Criar Consulta</h2>
+    <h2>Editar Consulta</h2>
 
     @if(session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
+        <p style="color:green;">{{ session('success') }}</p>
     @endif
     @if(session('error'))
-        <p style="color: red;">{{ session('error') }}</p>
+        <p style="color:red;">{{ session('error') }}</p>
     @endif
 
     {{-- Mensagem de erros de validação --}}
@@ -25,56 +24,52 @@
     @endif
 
 
-    <form action="{{ route('consultas.store') }}" method="POST">
+    <form action="{{ route('consultas.update', ['consulta' => $consulta->id]) }}" method="POST">
         @csrf
+        @method('PUT')
 
         {{-- Campo Paciente com autocomplete --}}
         <label for="paciente">Paciente:</label>
-        <input type="text" id="paciente" name="paciente_nome" value="{{ old('paciente_nome') }}">
-        <input type="hidden" id="paciente_id" name="paciente_id" value="{{ old('paciente_id') }}">
-
+        <input type="text" id="paciente" name="paciente_nome" value="{{ $consulta->paciente->nome }}">
+        <input type="hidden" id="paciente_id" name="paciente_id" value="{{ $consulta->paciente_id }}">
         <br><br>
 
         <label for="tipo_consulta_id">Tipo de Consulta:</label>
         <select name="tipo_consulta_id" id="tipo_consulta_id" required>
             <option value="">Selecione o tipo de consulta</option>
             @foreach($tiposConsulta as $tipo)
-                <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
+                <option value="{{ $tipo->id }}" {{ $consulta->tipo_consulta_id == $tipo->id ? 'selected' : '' }}>
+                    {{ $tipo->nome }}
+                </option>
             @endforeach
         </select>
-
         <br><br>
 
-         {{-- Campo Médico com autocomplete --}}
+        {{-- Campo Médico com autocomplete --}}
         <label for="medico">Médico:</label>
-        <input type="text" id="medico" name="medico_nome" disabled>
-        <input type="hidden" id="medico_id" name="medico_id">
-
+        <input type="text" id="medico" name="medico_nome" value="{{ $consulta->medico->nome }}" disabled>
+        <input type="hidden" id="medico_id" name="medico_id" value="{{ $consulta->medico_id }}">
         <br><br>
 
         <label for="data_atendimento">Data:</label>
-        <input type="date" name="data_atendimento" id="data_atendimento" value="{{ old('data_atendimento') }}" required>
-
+        <input type="date" name="data_atendimento" id="data_atendimento" value="{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('Y-m-d') }}" required>
         <br><br>
 
         <label for="hora_atendimento">Hora:</label>
-        <input type="time" name="hora_atendimento" id="hora_atendimento" value="{{ old('hora_atendimento') }}" required>
-
+        <input type="time" name="hora_atendimento" id="hora_atendimento" value="{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('H:i') }}" required>
         <br><br>
 
         <label for="valor_consulta">Valor:</label>
-        <input type="number" step="0.01" name="valor_consulta" id="valor_consulta" value="{{ old('valor_consulta') }}" required>
-
+        <input type="number" step="0.01" name="valor_consulta" id="valor_consulta" value="{{ $consulta->valor_consulta }}" required>
         <br><br>
 
         <button type="submit" style="padding:10px; background:#2c3e50; color:white; border:none; border-radius:5px;">Salvar</button>
 
-          {{-- Botão de voltar --}}
+        {{-- Botão de voltar --}}
         <a href="{{ route('consultas.index') }}" 
         style="display:inline-block; margin-top:15px; padding:9px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
         Cancelar e voltar
         </a>
-
     </form>
 
     {{-- jQuery UI Autocomplete --}}
@@ -92,19 +87,10 @@
                         data: { term: request.term },
                         success: function(data) {
                             if (data.length === 0) {
-                                // Nenhum paciente encontrado
-                                response([{ 
-                                    label: "Paciente não encontrado. Deseja cadastrar?", 
-                                    value: request.term, 
-                                    id: null 
-                                }]);
+                                response([{ label: "Paciente não encontrado. Deseja cadastrar?", value: request.term, id: null }]);
                             } else {
                                 response($.map(data, function(item) {
-                                    return {
-                                        label: item.nome,
-                                        value: item.nome,
-                                        id: item.id
-                                    };
+                                    return { label: item.nome, value: item.nome, id: item.id };
                                 }));
                             }
                         }
@@ -112,10 +98,8 @@
                 },
                 select: function(event, ui) {
                     if (ui.item.id) {
-                        // Paciente existente
                         $("#paciente_id").val(ui.item.id);
                     } else {
-                        // Nenhum paciente encontrado → redireciona para tela de cadastro
                         if (confirm("Paciente não encontrado. Deseja cadastrar?")) {
                             window.location.href = "{{ route('pacientes.create') }}";
                         }
@@ -123,7 +107,7 @@
                 }
             });
 
-             $("#tipo_consulta_id").change(function() {
+            $("#tipo_consulta_id").change(function() {
                 const tipoId = $(this).val();
                 if (!tipoId) {
                     $("#medico").prop("disabled", true);
@@ -159,7 +143,6 @@
                 });
             });
 
-            
         });
     </script>
 @endsection

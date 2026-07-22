@@ -49,8 +49,15 @@ class PacienteController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->pacienteService->atualizarPaciente($id, $request->except(['_token', '_method']));
-        return redirect()->route('pacientes.index')->with('success','Paciente atualizado com sucesso!');
+        try {
+            $this->pacienteService->atualizarPaciente($id, $request->except(['_token', '_method']));
+            return redirect()->route('pacientes.index')->with('success','Paciente atualizado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withErrors(['erro' => 'Erro ao atualizar paciente: ' . $e->getMessage()])
+                ->withInput();
+        }
     }
 
     public function destroy($id)

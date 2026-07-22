@@ -22,7 +22,8 @@
             <tr>
                 <th>Nome</th>
                 <th>CRM</th>
-                <th>Especialidade</th>
+                <th>Especialidades</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -30,11 +31,27 @@
                 <tr>
                     <td>{{ $medico->nome }}</td>
                     <td>{{ $medico->crm }}</td>
-                    <td>{{ $medico->especialidade->nome }}</td>
+                    <td>
+                        @if($medico->especialidades->isNotEmpty())
+                            {{ $medico->especialidades->pluck('nome')->join(', ') }}
+                        @else
+                            <em>Sem especialidades</em>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('medicos.edit', $medico->id) }}" style="margin-right:10px; color:blue;">Editar</a>
+                        <form action="{{ route('medicos.destroy', $medico->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="color:red; background:none; border:none; cursor:pointer;">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3" style="text-align:center;">Nenhum médico cadastrado.</td>
+                    <td colspan="4" style="text-align:center;">Nenhum médico cadastrado.</td>
                 </tr>
             @endforelse
         </tbody>

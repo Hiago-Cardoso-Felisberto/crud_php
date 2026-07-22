@@ -49,5 +49,38 @@
     </footer>
 
     @yield('scripts')
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#cpf').mask('000.000.000-00'); 
+            
+            // Telefone dinâmico: celular (11 dígitos) ou fixo (10 dígitos)
+            var SPMaskBehavior = function (val) {
+                return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+            };
+
+            var spOptions = {
+                onKeyPress: function(val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                }
+            };
+
+            $('#telefone').mask(SPMaskBehavior, spOptions);
+
+            $('form').on('submit', function(){
+                
+                // remove a máscara e deixa só os números
+                var cpfLimpo = $('#cpf').cleanVal();
+                var telefoneLimpo = $('#telefone').cleanVal();
+
+                $('#cpf').val(cpfLimpo);
+                $('#telefone').val(telefoneLimpo);
+            });
+
+        });
+    </script>
 </body>
 </html>
