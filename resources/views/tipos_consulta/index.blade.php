@@ -11,20 +11,14 @@
     @endif
 
    {{-- Botão para criar novo tipo de consulta --}}
-    <a href="{{ route('tipos_consulta.create') }}" 
-    style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
-    Novo Tipo de Consulta
-    </a>
+    <a href="{{ route('tipos_consulta.create') }}" class="botaoLink"> Novo Tipo de Consulta </a>
 
     {{-- Botão de voltar --}}
-    <a href="{{ route('consultas.index') }}" 
-    style="display:inline-block; margin-bottom:15px; padding:10px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
-    Voltar
-    </a>
+    <a href="{{ route('consultas.index') }}" class="botaoVoltarLink"> Voltar </a>
 
     {{-- Tabela de tipos de consulta --}}
-    <table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
-        <thead style="background:#ecf0f1;">
+    <table id="tabela" border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
+        <thead>
             <tr>
                 <th>Nome</th>
                 <th>Duração (min)</th>
@@ -34,28 +28,37 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($tipos as $tipo)
+            @foreach($tipos as $tipo)
                 <tr>
                     <td>{{ $tipo->nome }}</td>
                     <td>{{ $tipo->duracao }}</td>
                     <td>{{ $tipo->hora_inicio }}</td>
                     <td>{{ $tipo->hora_fim }}</td>
                     <td>
-                        <a href="{{ route('tipos_consulta.edit', $tipo->id) }}" style="margin-right:10px; color:blue;">Editar</a>
+                        <a href="{{ route('tipos_consulta.edit', $tipo->id) }}" style="margin-right:10px; color:blue;"><i class="fa-solid fa-pencil"></i></a>
                         <form action="{{ route('tipos_consulta.destroy', $tipo->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" style="color:red; background:none; border:none; cursor:pointer;">
-                                Excluir
+                                <i class="fa-solid fa-trash"></i>
                             </button>
                         </form>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="5" style="text-align:center;">Nenhum tipo de consulta cadastrado.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#tabela').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/pt-BR.json'
+                },
+                order: [[0, 'asc']] // ordena pela coluna Data, mais recente primeiro
+            });
+        });
+    </script>
 @endsection

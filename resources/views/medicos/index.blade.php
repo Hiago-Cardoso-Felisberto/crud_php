@@ -11,14 +11,11 @@
     @endif
 
     {{-- Botão para criar novo médico --}}
-    <a href="{{ route('medicos.create') }}" 
-       style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
-       Novo Médico
-    </a>
+    <a href="{{ route('medicos.create') }}" class="botaoLink"> Novo Médico </a>
 
     {{-- Tabela de médicos --}}
-    <table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
-        <thead style="background:#ecf0f1;">
+    <table id="tabela" border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
+        <thead>
             <tr>
                 <th>Nome</th>
                 <th>CRM</th>
@@ -27,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($medicos as $medico)
+            @foreach($medicos as $medico)
                 <tr>
                     <td>{{ $medico->nome }}</td>
                     <td>{{ $medico->crm }}</td>
@@ -39,21 +36,30 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('medicos.edit', $medico->id) }}" style="margin-right:10px; color:blue;">Editar</a>
+                        <a href="{{ route('medicos.edit', $medico->id) }}" style="margin-right:10px; color:blue;"><i class="fa-solid fa-pencil"></i></a>
                         <form action="{{ route('medicos.destroy', $medico->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" style="color:red; background:none; border:none; cursor:pointer;">
-                                Excluir
+                                <i class="fa-solid fa-trash"></i>
                             </button>
                         </form>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="4" style="text-align:center;">Nenhum médico cadastrado.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#tabela').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/pt-BR.json'
+                },
+                order: [[1, 'asc']] // ordena pela coluna Data, mais recente primeiro
+            });
+        });
+    </script>
 @endsection

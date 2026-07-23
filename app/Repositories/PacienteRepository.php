@@ -12,6 +12,10 @@ class PacienteRepository
         $this->paciente = $paciente;
     }
 
+    public function all(){
+        return Paciente::all();
+    }
+
     public function listarConsultasAll(){
         return $this->paciente->all();
     }

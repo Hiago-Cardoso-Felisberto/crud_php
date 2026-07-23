@@ -15,10 +15,10 @@ class ConsultaController extends Controller
     }
 
     public function index()
-    {
-        $consultas = $this->consultaService->listarConsultas();
-        return view('consultas.index', compact('consultas'));
-    }
+{
+    $consultas = $this->consultaService->listarConsultas();
+    return view('consultas.index', compact('consultas'));
+}
 
     public function create()
     {

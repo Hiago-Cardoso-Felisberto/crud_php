@@ -25,63 +25,70 @@
     @endif
 
 
-    <form action="{{ route('consultas.store') }}" method="POST">
+   <form action="{{ route('consultas.store') }}" method="POST" class="p-4 border rounded shadow-sm bg-white">
         @csrf
 
-        {{-- Campo Paciente com autocomplete --}}
-        <label for="paciente">Paciente:</label>
-        <input type="text" id="paciente" name="paciente_nome" value="{{ old('paciente_nome') }}">
-        <input type="hidden" id="paciente_id" name="paciente_id" value="{{ old('paciente_id') }}">
+        <div class="row g-3">
 
-        <br><br>
+            {{-- Paciente --}}
+            <div class="col-md-6">
+                <label for="paciente" class="form-label">Paciente</label>
+                <input type="text" id="paciente" name="paciente_nome" class="form-control" value="{{ old('paciente_nome') }}">
+                <input type="hidden" id="paciente_id" name="paciente_id" value="{{ old('paciente_id') }}">
+            </div>
 
-        <label for="tipo_consulta_id">Tipo de Consulta:</label>
-        <select name="tipo_consulta_id" id="tipo_consulta_id" required>
-            <option value="">Selecione o tipo de consulta</option>
-            @foreach($tiposConsulta as $tipo)
-                <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
-            @endforeach
-        </select>
+            {{-- Tipo de Consulta --}}
+            <div class="col-md-6">
+                <label for="tipo_consulta_id" class="form-label">Tipo de Consulta</label>
+                <select name="tipo_consulta_id" id="tipo_consulta_id" class="form-select" required>
+                    <option value="">Selecione o tipo de consulta</option>
+                    @foreach($tiposConsulta as $tipo)
+                        <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <br><br>
+            {{-- Médico --}}
+            <div class="col-md-6">
+                <label for="medico" class="form-label">Médico</label>
+                <input type="text" id="medico" name="medico_nome" class="form-control" disabled>
+                <input type="hidden" id="medico_id" name="medico_id">
+            </div>
 
-         {{-- Campo Médico com autocomplete --}}
-        <label for="medico">Médico:</label>
-        <input type="text" id="medico" name="medico_nome" disabled>
-        <input type="hidden" id="medico_id" name="medico_id">
+            {{-- Data --}}
+            <div class="col-md-3">
+                <label for="data_atendimento" class="form-label">Data</label>
+                <input type="date" name="data_atendimento" id="data_atendimento" class="form-control" value="{{ old('data_atendimento') }}" required>
+            </div>
 
-        <br><br>
+            {{-- Hora --}}
+            <div class="col-md-3">
+                <label for="hora_atendimento" class="form-label">Hora</label>
+                <input type="time" name="hora_atendimento" id="hora_atendimento" class="form-control" value="{{ old('hora_atendimento') }}" required>
+            </div>
 
-        <label for="data_atendimento">Data:</label>
-        <input type="date" name="data_atendimento" id="data_atendimento" value="{{ old('data_atendimento') }}" required>
+            {{-- Valor --}}
+            <div class="col-md-6">
+                <label for="valor_consulta" class="form-label">Valor</label>
+                <div class="input-group">
+                    <span class="input-group-text">R$</span>
+                    <input type="number" step="0.01" name="valor_consulta" id="valor_consulta" class="form-control" value="{{ old('valor_consulta') }}" required>
+                </div>
+            </div>
 
-        <br><br>
+        </div>
 
-        <label for="hora_atendimento">Hora:</label>
-        <input type="time" name="hora_atendimento" id="hora_atendimento" value="{{ old('hora_atendimento') }}" required>
-
-        <br><br>
-
-        <label for="valor_consulta">Valor:</label>
-        <input type="number" step="0.01" name="valor_consulta" id="valor_consulta" value="{{ old('valor_consulta') }}" required>
-
-        <br><br>
-
-        <button type="submit" style="padding:10px; background:#2c3e50; color:white; border:none; border-radius:5px;">Salvar</button>
-
-          {{-- Botão de voltar --}}
-        <a href="{{ route('consultas.index') }}" 
-        style="display:inline-block; margin-top:15px; padding:9px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
-        Cancelar e voltar
-        </a>
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ route('consultas.index') }}" class="btn btn-secondary">Cancelar e Voltar</a>
+        </div>
 
     </form>
+   
+@endsection
 
+@section('scripts')
     {{-- jQuery UI Autocomplete --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
     <script>
         $(function() {
             // Autocomplete Paciente

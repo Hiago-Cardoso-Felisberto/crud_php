@@ -22,47 +22,48 @@
     @endif
 
     {{-- Formulário --}}
-    <form action="{{ route('medicos.store') }}" method="POST">
+   <form action="{{ route('medicos.store') }}" method="POST" class="p-4 border rounded shadow-sm bg-white">
         @csrf
 
-        <div style="margin-bottom:15px;">
-            <label for="nome">Nome:</label><br>
-            <input type="text" name="nome" id="nome" value="{{ old('nome') }}" required>
-            @error('nome') <span style="color:red;">{{ $message }}</span> @enderror
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" name="nome" id="nome" class="form-control @error('nome') is-invalid @enderror" value="{{ old('nome') }}" required>
+                @error('nome')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="crm" class="form-label">CRM</label>
+                <input type="text" name="crm" id="crm" class="form-control @error('crm') is-invalid @enderror" value="{{ old('crm') }}" required>
+                @error('crm')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-12">
+                <label for="especialidade" class="form-label">Especialidades</label>
+                <input type="text" id="especialidade" class="form-control @error('especialidades') is-invalid @enderror" placeholder="Digite para buscar...">
+                <div id="selecionadas" class="mt-2 d-flex flex-wrap gap-2"></div>
+                <input type="hidden" name="especialidades" id="especialidades_hidden">
+                @error('especialidades')
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+            </div>
+
         </div>
 
-        <div style="margin-bottom:15px;">
-            <label for="crm">CRM:</label><br>
-            <input type="text" name="crm" id="crm" value="{{ old('crm') }}" required>
-            @error('crm') <span style="color:red;">{{ $message }}</span> @enderror
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ route('medicos.index') }}" class="btn btn-secondary">Cancelar e voltar</a>
         </div>
 
-        <div style="margin-bottom:15px;">
-            <label for="especialidade">Especialidades:</label><br>
-            <input type="text" id="especialidade" placeholder="Digite para buscar...">
-            <div id="selecionadas" style="margin-top:10px;"></div>
-            <input type="hidden" name="especialidades" id="especialidades_hidden">
-            @error('especialidades') <span style="color:red;">{{ $message }}</span> @enderror
-        </div>
-
-        <button type="submit" 
-                style="padding:10px; background:#2c3e50; color:white; border:none; border-radius:5px;">
-            Salvar
-        </button>
-
-        {{-- Botão de voltar --}}
-        <a href="{{ route('medicos.index') }}" 
-        style="display:inline-block; margin-top:15px; padding:9px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
-        Cancelar e voltar
-        </a>
     </form>
 @endsection
 
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
     <script>
         const especialidades = @json($especialidades);
         let selecionadas = []; // vazio no create

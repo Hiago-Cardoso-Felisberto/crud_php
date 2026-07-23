@@ -16,36 +16,78 @@
         </div>
     @endif
 
-    <form action="{{ route('pacientes.store') }}" method="POST">
+   <form action="{{ route('pacientes.store') }}" method="POST" class="p-4 border rounded shadow-sm bg-white">
         @csrf
-        <label for="nome">Nome do paciente:</label>
-        <input type="text" id="nome" name="nome" value="{{ old('nome') }}">
 
-        <br><br>
+        <div class="row g-3">
 
-        <label for="cpf">Cpf:</label>
-        <input type="text" id="cpf" name="cpf" value="{{ old('cpf') }}">
+            <div class="col-md-6">
+                <label for="nome" class="form-label">Nome do paciente</label>
+                <input type="text" id="nome" name="nome" class="form-control @error('nome') is-invalid @enderror" value="{{ old('nome') }}">
+                @error('nome')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <br><br>
+            <div class="col-md-6">
+                <label for="cpf" class="form-label">CPF</label>
+                <input type="text" id="cpf" name="cpf" class="form-control @error('cpf') is-invalid @enderror" value="{{ old('cpf') }}">
+                @error('cpf')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <label for="data_nascimento">Data de nascimento:</label>
-        <input type="date" name="data_nascimento" id="data_nascimento" value="{{ old('data_nascimento') }}" required>
+            <div class="col-md-6">
+                <label for="data_nascimento" class="form-label">Data de nascimento</label>
+                <input type="date" name="data_nascimento" id="data_nascimento" class="form-control @error('data_nascimento') is-invalid @enderror" value="{{ old('data_nascimento') }}" required>
+                @error('data_nascimento')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <br><br>
+            <div class="col-md-6">
+                <label for="telefone" class="form-label">Telefone / Celular</label>
+                <input type="text" name="telefone" id="telefone" class="form-control @error('telefone') is-invalid @enderror" value="{{ old('telefone') }}" required>
+                @error('telefone')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <label for="telefone">Telefone / Celular:</label>
-        <input type="text" name="telefone" id="telefone" value="{{ old('telefone') }}" required>
+        </div>
 
-        <br><br>
-
-        <button type="submit" style="padding:10px; background:#2c3e50; color:white; border:none; border-radius:5px;">Salvar</button>
-
-        {{-- Botão de voltar --}}
-        <a href="{{ route('pacientes.index') }}" 
-        style="display:inline-block; margin-top:15px; padding:9px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
-        Cancelar e voltar
-        </a>
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ route('pacientes.index') }}" class="btn btn-secondary">Cancelar e voltar</a>
+        </div>
 
     </form>
    
+@endsection
+
+@section('scripts')
+    <script>
+    $(document).ready(function(){
+            $('#cpf').mask('000.000.000-00'); 
+            
+            var SPMaskBehavior = function (val) {
+                return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+            };
+
+            var spOptions = {
+                onKeyPress: function(val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                }
+            };
+
+            $('#telefone').mask(SPMaskBehavior, spOptions);
+
+            $('form').on('submit', function(){
+                var cpfLimpo = $('#cpf').cleanVal();
+                var telefoneLimpo = $('#telefone').cleanVal();
+
+                $('#cpf').val(cpfLimpo);
+                $('#telefone').val(telefoneLimpo);
+            });
+        });
+    </script>
 @endsection

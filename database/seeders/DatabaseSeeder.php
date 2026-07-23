@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             TiposConsultaSeeder::class,
             TipoConsultaEspecialidadeSeeder::class,
             AtendimentoSeeder::class,
+            FixSequencesSeeder::class
         ]);
     }
 }

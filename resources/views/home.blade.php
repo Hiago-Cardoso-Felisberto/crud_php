@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Lista de Consultas')
+@section('title', 'Sistema de Consultas')
 
 @section('content')
 <div class="dashboard">

@@ -14,6 +14,11 @@ class PacienteService
         $this->pacienteRepository = $pacienteRepository;
     }
 
+    public function listarPacientes()
+    {
+        return $this->pacienteRepository->all();
+    }
+
     public function listarConsultas(){
         return $this->pacienteRepository->listarConsultasAll();
     }

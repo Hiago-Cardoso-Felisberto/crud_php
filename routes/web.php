@@ -9,16 +9,13 @@ use App\Http\Controllers\TipoConsultaController;
 use App\Http\Controllers\EspecialidadeController;
 
 // Rotas iniciais
-Route::get('/', [Controller::class, 'index'])->name('home');
-Route::get('/consultas', [Controller::class, 'consultas'])->name('consultas.index');
-Route::get('/medicos', [Controller::class, 'medicos'])->name('medicos.index');
-Route::get('/pacientes', [Controller::class, 'pacientes'])->name('pacientes.index');
+Route::get('/', [Controller::class, 'home'])->name('home');
 
 // Rotas de consultas
 Route::get('/buscar-pacientes', [PacienteController::class, 'buscar'])->name('pacientes.buscar');
 Route::get('/buscar-medicos', [MedicoController::class, 'buscar'])->name('medicos.buscar');
 
-// Route::get('/consultas', [ConsultaController:: class,'index'])-> name('consultas.index');   Provavel exclusão
+Route::get('/consultas', [ConsultaController:: class,'index'])-> name('consultas.index'); 
 Route::get('/consultas/create', [ConsultaController::class, 'create'])->name('consultas.create');
 Route::post('/consultas', [ConsultaController::class,'store'])->name('consultas.store');
 Route::get('/consultas/{consulta}', [ConsultaController::class,'show'])->name('consultas.show');
@@ -29,7 +26,7 @@ Route::get('/consultas/medicos-por-tipo/{id}', [ConsultaController::class, 'medi
 
 
 // Rotas de pacientes
-// Route::get('/pacientes', [PacienteController:: class,'index'])-> name('pacientes.index');   Provavel exclusão
+Route::get('/pacientes', [PacienteController:: class,'index'])-> name('pacientes.index');
 Route::get('/pacientes/create', [PacienteController:: class,'create'])-> name('pacientes.create');
 Route::post('/pacientes', [PacienteController::class,'store'])->name('pacientes.store');
 Route::get('/pacientes/{paciente}/edit', [PacienteController::class,'edit'])->name('pacientes.edit');
@@ -40,7 +37,7 @@ Route::delete('/pacientes/{paciente}', [PacienteController::class,'destroy'])->n
 // Rotas de medicos
 Route::get('/medicos/especialidades/search', [EspecialidadeController::class, 'search'])->name('especialidades.search');
 
-// Route::get('/medicos', [MedicoController:: class,'index'])-> name('medicos.index');      Provavel exclusão
+Route::get('/medicos', [MedicoController:: class,'index'])-> name('medicos.index');
 Route::get('/medicos/create', [MedicoController:: class,'create'])-> name('medicos.create');
 Route::post('/medicos', [MedicoController::class,'store'])->name('medicos.store');
 Route::get('/medicos/search', [MedicoController::class,'search'])->name('medicos.search');

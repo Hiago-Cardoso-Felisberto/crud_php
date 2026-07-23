@@ -24,59 +24,72 @@
     @endif
 
 
-    <form action="{{ route('consultas.update', ['consulta' => $consulta->id]) }}" method="POST">
+    <form action="{{ route('consultas.update', ['consulta' => $consulta->id]) }}" method="POST" class="p-4 border rounded shadow-sm bg-white">
         @csrf
         @method('PUT')
 
-        {{-- Campo Paciente com autocomplete --}}
-        <label for="paciente">Paciente:</label>
-        <input type="text" id="paciente" name="paciente_nome" value="{{ $consulta->paciente->nome }}">
-        <input type="hidden" id="paciente_id" name="paciente_id" value="{{ $consulta->paciente_id }}">
-        <br><br>
+        <div class="row g-3">
 
-        <label for="tipo_consulta_id">Tipo de Consulta:</label>
-        <select name="tipo_consulta_id" id="tipo_consulta_id" required>
-            <option value="">Selecione o tipo de consulta</option>
-            @foreach($tiposConsulta as $tipo)
-                <option value="{{ $tipo->id }}" {{ $consulta->tipo_consulta_id == $tipo->id ? 'selected' : '' }}>
-                    {{ $tipo->nome }}
-                </option>
-            @endforeach
-        </select>
-        <br><br>
+            {{-- Paciente --}}
+            <div class="col-md-6">
+                <label for="paciente" class="form-label">Paciente</label>
+                <input type="text" id="paciente" name="paciente_nome" class="form-control" value="{{ $consulta->paciente->nome }}">
+                <input type="hidden" id="paciente_id" name="paciente_id" value="{{ $consulta->paciente_id }}">
+            </div>
 
-        {{-- Campo Médico com autocomplete --}}
-        <label for="medico">Médico:</label>
-        <input type="text" id="medico" name="medico_nome" value="{{ $consulta->medico->nome }}" disabled>
-        <input type="hidden" id="medico_id" name="medico_id" value="{{ $consulta->medico_id }}">
-        <br><br>
+            {{-- Tipo de Consulta --}}
+            <div class="col-md-6">
+                <label for="tipo_consulta_id" class="form-label">Tipo de Consulta</label>
+                <select name="tipo_consulta_id" id="tipo_consulta_id" class="form-select" required>
+                    <option value="">Selecione o tipo de consulta</option>
+                    @foreach($tiposConsulta as $tipo)
+                        <option value="{{ $tipo->id }}" {{ $consulta->tipo_consulta_id == $tipo->id ? 'selected' : '' }}>
+                            {{ $tipo->nome }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-        <label for="data_atendimento">Data:</label>
-        <input type="date" name="data_atendimento" id="data_atendimento" value="{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('Y-m-d') }}" required>
-        <br><br>
+            {{-- Médico --}}
+            <div class="col-md-6">
+                <label for="medico" class="form-label">Médico</label>
+                <input type="text" id="medico" name="medico_nome" class="form-control" value="{{ $consulta->medico->nome }}" disabled>
+                <input type="hidden" id="medico_id" name="medico_id" value="{{ $consulta->medico_id }}">
+            </div>
 
-        <label for="hora_atendimento">Hora:</label>
-        <input type="time" name="hora_atendimento" id="hora_atendimento" value="{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('H:i') }}" required>
-        <br><br>
+            {{-- Data --}}
+            <div class="col-md-3">
+                <label for="data_atendimento" class="form-label">Data</label>
+                <input type="date" name="data_atendimento" id="data_atendimento" class="form-control" value="{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('Y-m-d') }}" required>
+            </div>
 
-        <label for="valor_consulta">Valor:</label>
-        <input type="number" step="0.01" name="valor_consulta" id="valor_consulta" value="{{ $consulta->valor_consulta }}" required>
-        <br><br>
+            {{-- Hora --}}
+            <div class="col-md-3">
+                <label for="hora_atendimento" class="form-label">Hora</label>
+                <input type="time" name="hora_atendimento" id="hora_atendimento" class="form-control" value="{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('H:i') }}" required>
+            </div>
 
-        <button type="submit" style="padding:10px; background:#2c3e50; color:white; border:none; border-radius:5px;">Salvar</button>
+            {{-- Valor --}}
+            <div class="col-md-6">
+                <label for="valor_consulta" class="form-label">Valor</label>
+                <div class="input-group">
+                    <span class="input-group-text">R$</span>
+                    <input type="number" step="0.01" name="valor_consulta" id="valor_consulta" class="form-control" value="{{ $consulta->valor_consulta }}" required>
+                </div>
+            </div>
 
-        {{-- Botão de voltar --}}
-        <a href="{{ route('consultas.index') }}" 
-        style="display:inline-block; margin-top:15px; padding:9px; background:#7f8c8d; color:white; text-decoration:none; border-radius:5px;">
-        Cancelar e voltar
-        </a>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ route('consultas.index') }}" class="btn btn-secondary">Cancelar e Voltar</a>
+        </div>
+
     </form>
+@endsection
 
+@section('scripts')
     {{-- jQuery UI Autocomplete --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
     <script>
         $(function() {
             // Autocomplete Paciente
@@ -145,4 +158,4 @@
 
         });
     </script>
-@endsection
+ @endsection

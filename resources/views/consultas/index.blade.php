@@ -3,9 +3,9 @@
 @section('title', 'Lista de Consultas')
 
 @section('content')
+
     <h2>Lista de Consultas</h2>
 
-    {{-- Mensagem de sucesso ou erro --}}
     @if(session('success'))
         <p style="color: green;">{{ session('success') }}</p>
     @endif
@@ -13,28 +13,12 @@
         <p style="color: red;">{{ session('error') }}</p>
     @endif
 
+    <a href="{{ route('consultas.create') }}" class="botaoLink">Nova Consulta</a>
+    <a href="{{ route('tipos_consulta.index') }}" class="botaoLink">Tipo de consultas</a>
+    <a href="{{ route('especialidades.index') }}" class="botaoLink">Especialidade por consultas</a>
 
-    {{-- Botão para criar nova consulta --}}
-    <a href="{{ route('consultas.create') }}" 
-       style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
-       Nova Consulta
-    </a>
-
-    {{-- Botão para verifica tipos de consultas --}}
-    <a href="{{ route('tipos_consulta.index') }}" 
-       style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
-       Tipo de consultas
-    </a>
-
-    {{-- Botão para visualizar especialidades --}}
-    <a href="{{ route('especialidades.index') }}" 
-       style="display:inline-block; margin-bottom:15px; padding:10px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px;">
-       Especialidade por consultas
-    </a>
-
-    {{-- Tabela de consultas --}}
-    <table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
-        <thead style="background:#ecf0f1;">
+    <table id="tabela" border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse;">
+        <thead>
             <tr>
                 <th>Paciente</th>
                 <th>Médico</th>
@@ -44,28 +28,38 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($consultas as $consulta)
+            @foreach($consultas as $consulta)
                 <tr>
                     <td>{{ $consulta->paciente->nome }}</td>
                     <td>{{ $consulta->medico->nome }}</td>
-                    <td>{{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('d/m/Y H:i') }}</td>
+                    <td data-order="{{ $consulta->data_atendimento }}">
+                        {{ \Carbon\Carbon::parse($consulta->data_atendimento)->format('d/m/Y H:i') }}
+                    </td>
                     <td>R$ {{ number_format($consulta->valor_consulta, 2, ',', '.') }}</td>
                     <td>
-                        <a href="{{ route('consultas.edit', $consulta->id) }}" style="margin-right:10px; color:blue;">Editar</a>
+                        <a href="{{ route('consultas.edit', $consulta->id) }}" style="margin-right:10px; color:blue;"><i class="fa-solid fa-pencil"></i></a>
                         <form action="{{ route('consultas.destroy', $consulta->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" style="color:red; background:none; border:none; cursor:pointer;">
-                                Excluir
-                            </button>
+                            <button type="submit" style="color:red; background:none; border:none; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="5" style="text-align:center;">Nenhuma consulta cadastrada.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
+
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#tabela').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/pt-BR.json'
+                },
+                order: [[2, 'desc']] // ordena pela coluna Data, mais recente primeiro
+            });
+        });
+    </script>
 @endsection

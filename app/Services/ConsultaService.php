@@ -18,7 +18,8 @@ class ConsultaService
         $this->consultaRepository = $consultaRepository;
     }
 
-    public function listarConsultas(){
+    public function listarConsultas()
+    {
         return $this->consultaRepository->all();
     }
 

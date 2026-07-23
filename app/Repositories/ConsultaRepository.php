@@ -13,8 +13,11 @@ class ConsultaRepository
         $this->model = $consulta;
     }
 
-    public function all(){
-        return $this->model->all();
+    public function all()
+    {
+        return $this->model->with(['paciente', 'medico'])
+                            ->orderBy('data_atendimento', 'desc')
+                            ->get();
     }
 
     public function TipoConsultaAll()
