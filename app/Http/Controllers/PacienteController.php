@@ -69,8 +69,7 @@ class PacienteController extends Controller
 
     public function buscar(Request $request)
     {
-        $term = $request->get('term');
-        $pacientes = Paciente::where('nome', 'LIKE', '%' . $term . '%')->get();
+        $pacientes = $this->pacienteService->buscar($request->get('term'));
 
         return response()->json($pacientes);
     }

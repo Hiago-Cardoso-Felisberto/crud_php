@@ -10,6 +10,10 @@ class MedicoRepository
         return Medico::all();
     }
 
+    public function buscarPorId($id){
+        return Medico::find($id);
+    }
+
     public function create(array $dadosMedico){
         unset($dadosMedico['id']);
         return Medico::create($dadosMedico);

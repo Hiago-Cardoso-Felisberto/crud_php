@@ -21,8 +21,8 @@ Route::post('/consultas', [ConsultaController::class,'store'])->name('consultas.
 Route::get('/consultas/{consulta}', [ConsultaController::class,'show'])->name('consultas.show');
 Route::get('/consultas/{consulta}/edit', [ConsultaController::class,'edit'])->name('consultas.edit');
 Route::put('/consultas/{consulta}', [ConsultaController::class,'update'])->name('consultas.update');
-Route::delete('/consultas/{consulta}', [ConsultaController::class,'destroy'])->name('consultas.destroy');
 Route::get('/consultas/medicos-por-tipo/{id}', [ConsultaController::class, 'medicosPorTipo'])->name('consultas.medicosPorTipo');
+Route::delete('/consultas/{consulta}', [ConsultaController::class,'destroy'])->name('consultas.destroy');
 
 
 // Rotas de pacientes

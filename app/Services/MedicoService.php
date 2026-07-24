@@ -19,6 +19,10 @@ class MedicoService
         return $this->repository->all();
     }
 
+    public function buscarMedicoPorId($id){
+        return $this->repository->buscarPorId($id);
+    }
+
     public function cadastrarMedico(array $dadosMedico)
     {
         Validator::make($dadosMedico, [

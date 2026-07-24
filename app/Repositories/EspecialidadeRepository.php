@@ -12,6 +12,11 @@ class EspecialidadeRepository
         return Especialidade::all();
     }
 
+    public function buscarPorId($id)
+    {
+        return Especialidade::find($id);
+    }
+
     public function create(array $data)
     {
         unset($data['id']);

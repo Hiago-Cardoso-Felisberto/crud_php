@@ -23,6 +23,10 @@ class PacienteService
         return $this->pacienteRepository->listarConsultasAll();
     }
 
+    public function buscarPacientePorId($id){
+        return $this->pacienteRepository->buscarPorId($id);
+    } 
+
     public function cadastrarPaciente(array $pacienteDados){
 
         $pacienteDados['data_nascimento'] = \Carbon\Carbon::parse($pacienteDados['data_nascimento'])->format('Y-m-d');
@@ -79,5 +83,10 @@ class PacienteService
 
     public function excluirPaciente($id){
         return $this->pacienteRepository->delete($id);
+    }
+
+    public function buscar($term)
+    {
+        return $this->pacienteRepository->buscar($term);
     }
 }

@@ -25,6 +25,13 @@ class ConsultaRepository
         return TipoConsulta::all();
     }
 
+    public function buscarPorId($id)
+    {
+        return $this->model
+            ->with(['paciente', 'medico', 'tipoConsulta'])
+            ->find($id);
+    }
+
     public function create(array $dadosCunsulta){
         unset($dadosCunsulta['id']);
         return $this->model->create($dadosCunsulta);

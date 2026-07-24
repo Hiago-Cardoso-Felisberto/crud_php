@@ -11,6 +11,11 @@ class TipoConsultaRepository
         return TipoConsulta::all();
     }
 
+    public function buscarPorId($id)
+    {
+        return TipoConsulta::find($id);
+    }
+
     public function create(array $data)
     {
         unset($data['id']);

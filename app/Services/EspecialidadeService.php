@@ -18,6 +18,11 @@ class EspecialidadeService
     {
         return $this->repository->listarEspecialidadesAll();
     }
+
+    public function buscarEspecialidadePorId($id)
+    {
+        return $this->repository->buscarPorId($id);
+    }
     
     public function cadastrarEspecialidade(array $data)
     {

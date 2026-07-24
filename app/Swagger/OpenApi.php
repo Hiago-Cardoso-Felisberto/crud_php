@@ -6,9 +6,9 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
- *     title="API de Consultas Médicas",
  *     version="1.0.0",
- *     description="Documentação da API do sistema de consultas médicas"
+ *     title="Sistema de Consultas Médicas",
+ *     description="Documentação da API do Sistema de Consultas Médicas."
  * )
  *
  * @OA\Server(
@@ -16,6 +16,6 @@ use OpenApi\Annotations as OA;
  *     description="Servidor local"
  * )
  */
-final class OpenApiAnnotations
+class OpenApi
 {
 }

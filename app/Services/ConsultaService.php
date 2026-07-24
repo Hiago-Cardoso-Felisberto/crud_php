@@ -27,6 +27,11 @@ class ConsultaService
         return $this->consultaRepository->TipoConsultaAll();
     }
 
+    public function buscarConsultaPorId($id)
+    {
+        return $this->consultaRepository->buscarPorId($id);
+    }
+
     public function criarConsulta(array $dadosConsulta){
         Validator::make($dadosConsulta, [
             'paciente_id' => 'required|exists:pacientes,id',

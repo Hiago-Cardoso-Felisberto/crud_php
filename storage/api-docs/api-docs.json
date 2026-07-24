@@ -1,0 +1,1444 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Sistema de Consultas Médicas",
+        "description": "Documentação da API do Sistema de Consultas Médicas.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/api/consultas": {
+            "get": {
+                "tags": [
+                    "Consultas"
+                ],
+                "summary": "Lista todas as consultas",
+                "description": "Retorna uma lista com todas as consultas cadastradas.",
+                "operationId": "4de317507609369d17e797e2691793ee",
+                "responses": {
+                    "200": {
+                        "description": "Consultas encontradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "id": 20,
+                                            "paciente_id": 20,
+                                            "medico_id": 1,
+                                            "tipo_consulta_id": 1,
+                                            "data_atendimento": "2026-06-20T13:00:00.000000Z",
+                                            "valor_consulta": "180.00",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z",
+                                            "paciente": {
+                                                "id": 20,
+                                                "nome": "Isabela Cardoso",
+                                                "cpf": "00011122234",
+                                                "data_nascimento": "1998-08-15T03:00:00.000000Z",
+                                                "telefone": "48900000009",
+                                                "created_at": "2026-07-22T23:07:46.000000Z",
+                                                "updated_at": "2026-07-22T23:07:46.000000Z"
+                                            },
+                                            "medico": {
+                                                "id": 1,
+                                                "nome": "Dra. Ana Martins",
+                                                "crm": "CRM001",
+                                                "created_at": "2026-07-22T23:07:46.000000Z",
+                                                "updated_at": "2026-07-22T23:07:46.000000Z"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Consultas"
+                ],
+                "summary": "Cadastra uma nova consulta",
+                "description": "Cria uma nova consulta informando paciente, médico, tipo, data, horário e valor.",
+                "operationId": "54c6b97ec9124d69f1e6496147efa174",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "paciente_id",
+                                    "medico_id",
+                                    "tipo_consulta_id",
+                                    "data_atendimento",
+                                    "hora_atendimento",
+                                    "valor_consulta"
+                                ],
+                                "properties": {
+                                    "paciente_id": {
+                                        "type": "integer",
+                                        "example": 20
+                                    },
+                                    "medico_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tipo_consulta_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "data_atendimento": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-06-20"
+                                    },
+                                    "hora_atendimento": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "13:00"
+                                    },
+                                    "valor_consulta": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 180
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Consulta criada com sucesso"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            }
+        },
+        "/api/consultas/{id}": {
+            "get": {
+                "tags": [
+                    "Consultas"
+                ],
+                "summary": "Busca uma consulta pelo ID",
+                "description": "Retorna uma consulta específica pelo seu identificador.",
+                "operationId": "a196278920293d1c3dd71dde45ae865e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da consulta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Consulta encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "data": {
+                                        "id": 20,
+                                        "paciente_id": 20,
+                                        "medico_id": 1,
+                                        "tipo_consulta_id": 1,
+                                        "data_atendimento": "2026-06-20T13:00:00.000000Z",
+                                        "valor_consulta": "180.00",
+                                        "created_at": "2026-07-22T23:07:46.000000Z",
+                                        "updated_at": "2026-07-22T23:07:46.000000Z",
+                                        "paciente": {
+                                            "id": 20,
+                                            "nome": "Isabela Cardoso",
+                                            "cpf": "00011122234",
+                                            "telefone": "48900000009",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z"
+                                        },
+                                        "medico": {
+                                            "id": 1,
+                                            "nome": "Dra. Ana Martins",
+                                            "crm": "CRM001",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z"
+                                        },
+                                        "tipo_consulta": {
+                                            "id": 1,
+                                            "nome": "Consulta Cardiológica",
+                                            "duracao": 30,
+                                            "hora_inicio": "08:00:00",
+                                            "hora_fim": "18:00:00",
+                                            "created_at": "2026-07-22T23:07:45.000000Z",
+                                            "updated_at": "2026-07-22T23:07:45.000000Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Consulta não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Consultas"
+                ],
+                "summary": "Atualiza uma consulta",
+                "description": "Atualiza uma consulta existente informando paciente, médico, tipo, data, horário e valor.",
+                "operationId": "9de29f3a913d1d92bdae7e0a27b97988",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da consulta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 20
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "paciente_id",
+                                    "medico_id",
+                                    "tipo_consulta_id",
+                                    "data_atendimento",
+                                    "hora_atendimento",
+                                    "valor_consulta"
+                                ],
+                                "properties": {
+                                    "paciente_id": {
+                                        "type": "integer",
+                                        "example": 20
+                                    },
+                                    "medico_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tipo_consulta_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "data_atendimento": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-06-25"
+                                    },
+                                    "hora_atendimento": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:30"
+                                    },
+                                    "valor_consulta": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 250
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Consulta atualizada com sucesso"
+                    },
+                    "404": {
+                        "description": "Consulta não encontrada"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Consultas"
+                ],
+                "summary": "Remove uma consulta",
+                "operationId": "b1232cdae57aee2fca324dcc7d8064e7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Consulta removida"
+                    },
+                    "404": {
+                        "description": "Consulta não encontrada"
+                    }
+                }
+            }
+        },
+        "/api/consultas/medicos-por-tipo/{id}": {
+            "get": {
+                "tags": [
+                    "Consultas"
+                ],
+                "summary": "Lista médicos por tipo de consulta",
+                "description": "Retorna os médicos disponíveis para um determinado tipo de consulta.",
+                "operationId": "ab641c6235a01eb8ac576741a7927aae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do tipo de consulta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de médicos"
+                    },
+                    "404": {
+                        "description": "Tipo de consulta não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/especialidades": {
+            "get": {
+                "tags": [
+                    "Especialidades"
+                ],
+                "summary": "Lista todas as especialidades",
+                "description": "Retorna todas as especialidades cadastradas.",
+                "operationId": "c389d24dc22ce3a99228dbcd590d513c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de especialidades retornada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "nome": "Clínico Geral",
+                                            "created_at": "2026-07-22T23:07:45.000000Z",
+                                            "updated_at": "2026-07-22T23:07:45.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "nome": "Ortopedia",
+                                            "created_at": "2026-07-22T23:07:45.000000Z",
+                                            "updated_at": "2026-07-22T23:07:45.000000Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Especialidades"
+                ],
+                "summary": "Cadastra uma nova especialidade",
+                "description": "Cria uma nova especialidade no sistema.",
+                "operationId": "a39fe81ffd83a11e0b34bbe9e35aa56a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Cardiologia"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Especialidade cadastrada com sucesso."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            }
+        },
+        "/api/especialidades/{id}": {
+            "get": {
+                "tags": [
+                    "Especialidades"
+                ],
+                "summary": "Busca uma especialidade pelo ID",
+                "description": "Retorna uma especialidade específica.",
+                "operationId": "1006f0acec16580644cd8237119a0d7d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da especialidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Especialidade encontrada.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "data": {
+                                        "id": 1,
+                                        "nome": "Clínico Geral",
+                                        "created_at": "2026-07-22T23:07:45.000000Z",
+                                        "updated_at": "2026-07-22T23:07:45.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Especialidade não encontrada."
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Especialidades"
+                ],
+                "summary": "Atualiza uma especialidade",
+                "description": "Atualiza os dados de uma especialidade existente.",
+                "operationId": "a7287b40e277736d8f6515252a9cad2c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da especialidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Neurologia"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Especialidade atualizada com sucesso."
+                    },
+                    "404": {
+                        "description": "Especialidade não encontrada."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Especialidades"
+                ],
+                "summary": "Remove uma especialidade",
+                "description": "Exclui uma especialidade pelo ID.",
+                "operationId": "cb845875c4f08909d727c01c23bb88c9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da especialidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Especialidade removida com sucesso."
+                    },
+                    "404": {
+                        "description": "Especialidade não encontrada."
+                    }
+                }
+            }
+        },
+        "/api/especialidades/search": {
+            "get": {
+                "tags": [
+                    "Especialidades"
+                ],
+                "summary": "Pesquisa especialidades",
+                "description": "Busca especialidades pelo termo informado.",
+                "operationId": "4fca131b81278e7276502380ca5fc885",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Texto para pesquisa",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Cardio"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado da pesquisa."
+                    }
+                }
+            }
+        },
+        "/api/medicos": {
+            "get": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Lista todos os médicos",
+                "description": "Retorna todos os médicos cadastrados.",
+                "operationId": "6f984903f8598bc5072db084bbb83535",
+                "responses": {
+                    "200": {
+                        "description": "Lista de médicos retornada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "nome": "Dra. Ana Martins",
+                                            "crm": "CRM001",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "nome": "Dr. Carlos Souza",
+                                            "crm": "CRM002",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "nome": "Dr. Felipe Ramos",
+                                            "crm": "CRM003",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z"
+                                        },
+                                        {
+                                            "id": 4,
+                                            "nome": "Dra. Fernanda Lopes",
+                                            "crm": "CRM004",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z"
+                                        },
+                                        {
+                                            "id": 5,
+                                            "nome": "Dr. Ricardo Nunes",
+                                            "crm": "CRM005",
+                                            "created_at": "2026-07-22T23:07:46.000000Z",
+                                            "updated_at": "2026-07-22T23:07:46.000000Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Cadastra um novo médico",
+                "description": "Cria um novo médico vinculando uma ou mais especialidades.",
+                "operationId": "9545d280519dd0c08a97b6884b48ebc5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "crm",
+                                    "especialidades"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Dr. João Silva"
+                                    },
+                                    "crm": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    },
+                                    "especialidades": {
+                                        "description": "IDs das especialidades separados por vírgula",
+                                        "type": "string",
+                                        "example": "1,3,5"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Médico cadastrado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "message": "Médico cadastrado com sucesso.",
+                                    "data": {
+                                        "id": 1,
+                                        "nome": "Dr. João Silva",
+                                        "crm": "123456"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            }
+        },
+        "/api/medicos/{id}": {
+            "get": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Busca um médico pelo ID",
+                "description": "Retorna um médico específico pelo identificador.",
+                "operationId": "3489ed5ddbc13d9771aca97ff753b919",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do médico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Médico encontrado."
+                    },
+                    "404": {
+                        "description": "Médico não encontrado."
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Atualiza um médico",
+                "description": "Atualiza os dados de um médico existente e suas especialidades.",
+                "operationId": "c6c8337575f066f2ebad1ff5159670f5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do médico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Dr. Carlos Souza"
+                                    },
+                                    "crm": {
+                                        "type": "string",
+                                        "example": "654321"
+                                    },
+                                    "especialidades": {
+                                        "description": "IDs das especialidades separados por vírgula",
+                                        "type": "string",
+                                        "example": "2,4"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Médico atualizado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "message": "Médico atualizado com sucesso.",
+                                    "data": {
+                                        "id": 1,
+                                        "nome": "Dr. Carlos Souza",
+                                        "crm": "654321"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Médico não encontrado."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Remove um médico",
+                "description": "Exclui um médico pelo ID.",
+                "operationId": "d529b0db449cbfca8443563bb82ff01d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do médico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Médico removido com sucesso."
+                    },
+                    "404": {
+                        "description": "Médico não encontrado."
+                    }
+                }
+            }
+        },
+        "/api/medicos/search": {
+            "get": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Pesquisa médicos",
+                "description": "Busca médicos pelo termo informado.",
+                "operationId": "21fd7b1a3fe5a024494b3bc9e03a752c",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Nome ou termo de pesquisa",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "João"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado da pesquisa."
+                    }
+                }
+            }
+        },
+        "/api/pacientes": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Lista todos os pacientes",
+                "description": "Retorna todos os pacientes cadastrados.",
+                "operationId": "73941de798cea04f452640319fbc53e9",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pacientes retornada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nome": {
+                                                        "type": "string",
+                                                        "example": "João da Silva"
+                                                    },
+                                                    "cpf": {
+                                                        "type": "string",
+                                                        "example": "11122233344"
+                                                    },
+                                                    "data_nascimento": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "1980-03-15"
+                                                    },
+                                                    "telefone": {
+                                                        "type": "string",
+                                                        "example": "48999999999"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2026-07-22T23:07:46.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2026-07-22T23:07:46.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Cadastra um novo paciente",
+                "description": "Cria um novo paciente no sistema.",
+                "operationId": "fb01cc8f3496a4651d5a02dd7b63fb50",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "cpf",
+                                    "data_nascimento",
+                                    "telefone"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Maria Souza"
+                                    },
+                                    "cpf": {
+                                        "type": "string",
+                                        "example": "12345678900"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1990-05-15"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "example": "48999887766"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Paciente cadastrado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "message": "Paciente cadastrado com sucesso.",
+                                    "data": {
+                                        "id": 21,
+                                        "nome": "Maria Souza",
+                                        "cpf": "12345678900",
+                                        "data_nascimento": "1990-05-15T00:00:00.000000Z",
+                                        "telefone": "48999887766",
+                                        "created_at": "2026-07-23T23:30:00.000000Z",
+                                        "updated_at": "2026-07-23T23:30:00.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            }
+        },
+        "/api/pacientes/{id}": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Busca um paciente pelo ID",
+                "description": "Retorna um paciente específico pelo identificador.",
+                "operationId": "dff99d4794e17e7879e74ce6f448ebbe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 23
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paciente encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 23
+                                                },
+                                                "nome": {
+                                                    "type": "string",
+                                                    "example": "Maria Souza"
+                                                },
+                                                "cpf": {
+                                                    "type": "string",
+                                                    "example": "12345678900"
+                                                },
+                                                "data_nascimento": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "1990-05-15"
+                                                },
+                                                "telefone": {
+                                                    "type": "string",
+                                                    "example": "48999887766"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2026-07-23T23:12:51.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2026-07-23T23:12:51.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado."
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Atualiza um paciente",
+                "description": "Atualiza os dados de um paciente existente.",
+                "operationId": "1c2f03672b93cbe1b8a2f21d3e915c60",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 23
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "cpf",
+                                    "data_nascimento",
+                                    "telefone"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Maria Souza"
+                                    },
+                                    "cpf": {
+                                        "type": "string",
+                                        "example": "12345678900"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1990-05-15"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "example": "48999887767"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Paciente atualizado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "message": "Paciente atualizado com sucesso.",
+                                    "data": {
+                                        "id": 23,
+                                        "nome": "Maria Souza",
+                                        "cpf": "12345678900",
+                                        "data_nascimento": "1990-05-15T03:00:00.000000Z",
+                                        "telefone": "48999887767",
+                                        "created_at": "2026-07-23T23:12:51.000000Z",
+                                        "updated_at": "2026-07-23T23:15:55.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Remove um paciente",
+                "description": "Exclui um paciente pelo ID.",
+                "operationId": "8d4a67844e296fe6dca0bb8f2494cd4b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paciente removido com sucesso."
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado."
+                    }
+                }
+            }
+        },
+        "/api/pacientes/search": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Busca pacientes pelo nome",
+                "description": "Pesquisa pacientes utilizando um termo.",
+                "operationId": "954e77b2f1909a2c0dd86cb378a5158d",
+                "parameters": [
+                    {
+                        "name": "term",
+                        "in": "query",
+                        "description": "Nome ou termo de pesquisa",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Maria"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado da pesquisa."
+                    }
+                }
+            }
+        },
+        "/api/tipos-consulta": {
+            "get": {
+                "tags": [
+                    "Tipos de Consulta"
+                ],
+                "summary": "Lista todos os tipos de consulta",
+                "description": "Retorna todos os tipos de consulta cadastrados.",
+                "operationId": "1978966154aab67c788ab7ee63c44962",
+                "responses": {
+                    "200": {
+                        "description": "Lista de tipos de consulta retornada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "nome": "Consulta Cardiológica",
+                                            "duracao": 30,
+                                            "hora_inicio": "08:00:00",
+                                            "hora_fim": "18:00:00",
+                                            "created_at": "2026-07-22T23:07:45.000000Z",
+                                            "updated_at": "2026-07-22T23:07:45.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "nome": "Consulta Ortopédica",
+                                            "duracao": 45,
+                                            "hora_inicio": "09:00:00",
+                                            "hora_fim": "17:00:00",
+                                            "created_at": "2026-07-22T23:07:45.000000Z",
+                                            "updated_at": "2026-07-22T23:07:45.000000Z"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "nome": "Consulta Dermatológica",
+                                            "duracao": 30,
+                                            "hora_inicio": "10:00:00",
+                                            "hora_fim": "16:00:00",
+                                            "created_at": "2026-07-22T23:07:45.000000Z",
+                                            "updated_at": "2026-07-22T23:07:45.000000Z"
+                                        },
+                                        {
+                                            "id": 4,
+                                            "nome": "Consulta Neurológica",
+                                            "duracao": 50,
+                                            "hora_inicio": "08:00:00",
+                                            "hora_fim": "15:30:00",
+                                            "created_at": "2026-07-22T23:07:45.000000Z",
+                                            "updated_at": "2026-07-22T23:19:39.000000Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tipos de Consulta"
+                ],
+                "summary": "Cadastra um novo tipo de consulta",
+                "description": "Cria um novo tipo de consulta no sistema.",
+                "operationId": "8890bc7736019740d9b5e34e3a1cbec5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "duracao",
+                                    "especialidades",
+                                    "hora_inicio",
+                                    "hora_fim"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Consulta Cardiológica"
+                                    },
+                                    "duracao": {
+                                        "type": "integer",
+                                        "example": 60
+                                    },
+                                    "especialidades": {
+                                        "description": "IDs das especialidades separados por vírgula",
+                                        "type": "string",
+                                        "example": "1,3"
+                                    },
+                                    "hora_inicio": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "08:00"
+                                    },
+                                    "hora_fim": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "18:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tipo de consulta cadastrado com sucesso."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            }
+        },
+        "/api/tipos-consulta/{id}": {
+            "get": {
+                "tags": [
+                    "Tipos de Consulta"
+                ],
+                "summary": "Busca um tipo de consulta pelo ID",
+                "description": "Retorna um tipo de consulta específico.",
+                "operationId": "f1308813a10afa2053736a06d55d223b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do tipo de consulta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tipo de consulta encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "data": {
+                                        "id": 1,
+                                        "nome": "Consulta Cardiológica",
+                                        "duracao": 30,
+                                        "hora_inicio": "08:00:00",
+                                        "hora_fim": "18:00:00",
+                                        "created_at": "2026-07-22T23:07:45.000000Z",
+                                        "updated_at": "2026-07-22T23:07:45.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tipo de consulta não encontrado."
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tipos de Consulta"
+                ],
+                "summary": "Atualiza um tipo de consulta",
+                "description": "Atualiza os dados de um tipo de consulta existente.",
+                "operationId": "ad728e34fb72b5839ddd11cb24f0053f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do tipo de consulta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Consulta Neurológica"
+                                    },
+                                    "especialidade_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tipo de consulta atualizado com sucesso."
+                    },
+                    "404": {
+                        "description": "Tipo de consulta não encontrado."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tipos de Consulta"
+                ],
+                "summary": "Remove um tipo de consulta",
+                "description": "Exclui um tipo de consulta pelo ID.",
+                "operationId": "ab1a4c4ee00e1d6ed781934e8ac50f23",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do tipo de consulta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tipo de consulta removido com sucesso."
+                    },
+                    "404": {
+                        "description": "Tipo de consulta não encontrado."
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Consultas",
+            "description": "Consultas"
+        },
+        {
+            "name": "Especialidades",
+            "description": "Especialidades"
+        },
+        {
+            "name": "Médicos",
+            "description": "Médicos"
+        },
+        {
+            "name": "Pacientes",
+            "description": "Pacientes"
+        },
+        {
+            "name": "Tipos de Consulta",
+            "description": "Tipos de Consulta"
+        }
+    ]
+}

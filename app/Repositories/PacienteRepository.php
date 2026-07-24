@@ -20,6 +20,10 @@ class PacienteRepository
         return $this->paciente->all();
     }
 
+    public function buscarPorId($id){
+        return Paciente::find($id);
+    }
+
     public function create(array $pacienteDados){
         unset($pacienteDados['id']);
         return Paciente::create($pacienteDados);
@@ -31,5 +35,12 @@ class PacienteRepository
 
     public function delete($id){
         return $this->paciente->where('id', $id)->delete();
+    }
+
+    public function buscar($term)
+    {
+        return Paciente::where('nome', 'LIKE', '%' . $term . '%')
+            ->orderBy('nome')
+            ->get();
     }
 }

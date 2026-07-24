@@ -20,6 +20,11 @@ class TipoConsultaService
         return $this->repository->listarTiposConsultasAll();
     }
 
+    public function buscarTipoConsultaPorId($id)
+    {
+        return $this->repository->buscarPorId($id);
+    }
+
     public function cadastrarTipoConsulta(array $data)
     {
         Validator::make($data, [
